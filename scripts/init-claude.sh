@@ -18,7 +18,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO_URL="https://raw.githubusercontent.com/[YOUR_USERNAME]/claude-guides/main"
+REPO_URL="https://raw.githubusercontent.com/digitalplanetno/claude-guides/main"
 CLAUDE_DIR=".claude"
 PROMPTS_DIR="$CLAUDE_DIR/prompts"
 

@@ -6,9 +6,9 @@
 
 ```bash
 # Инициализировать .claude/ в новом проекте
-curl -sSL https://raw.githubusercontent.com/user/claude-guides/main/scripts/init-claude.sh | bash -s -- laravel
+curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/init-claude.sh | bash -s -- laravel
 # или
-curl -sSL https://raw.githubusercontent.com/user/claude-guides/main/scripts/init-claude.sh | bash -s -- nextjs
+curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/init-claude.sh | bash -s -- nextjs
 ```
 
 ## Структура
