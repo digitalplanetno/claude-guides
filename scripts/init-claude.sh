@@ -2,19 +2,25 @@
 # init-claude.sh — Initialize Claude Code configuration for a project
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/[user]/claude-guides/main/scripts/init-claude.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/init-claude.sh | bash
 #   # or
-#   ./init-claude.sh [framework]
+#   ./init-claude.sh [--dry-run] [framework]
 #
-# Frameworks: laravel, nextjs, auto (default)
+# Frameworks: laravel, nextjs, django, rails, golang, rust, auto (default)
+#
+# Options:
+#   --dry-run    Show what would be created without making changes
 
 set -e
+
+VERSION="1.1.0"
 
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Configuration
@@ -22,39 +28,82 @@ REPO_URL="https://raw.githubusercontent.com/digitalplanetno/claude-guides/main"
 CLAUDE_DIR=".claude"
 PROMPTS_DIR="$CLAUDE_DIR/prompts"
 
-echo -e "${BLUE}Claude Code Configuration Initializer${NC}"
-echo "========================================"
+# Flags
+DRY_RUN=false
+FRAMEWORK=""
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --dry-run)
+            DRY_RUN=true
+            shift
+            ;;
+        --version|-v)
+            echo "claude-guides v$VERSION"
+            exit 0
+            ;;
+        --help|-h)
+            echo "Usage: init-claude.sh [--dry-run] [framework]"
+            echo ""
+            echo "Frameworks: laravel, nextjs, django, rails, golang, rust, nodejs, generic"
+            echo ""
+            echo "Options:"
+            echo "  --dry-run    Show what would be created"
+            echo "  --version    Show version"
+            echo "  --help       Show this help"
+            exit 0
+            ;;
+        -*)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+        *)
+            FRAMEWORK="$1"
+            shift
+            ;;
+    esac
+done
+
+echo -e "${BLUE}Claude Code Configuration Initializer v$VERSION${NC}"
+echo "=============================================="
 echo ""
 
 # Detect framework
 detect_framework() {
+    # Laravel
     if [ -f "artisan" ]; then
         echo "laravel"
+    # Next.js
     elif [ -f "next.config.js" ] || [ -f "next.config.ts" ] || [ -f "next.config.mjs" ]; then
         echo "nextjs"
+    # Django
+    elif [ -f "manage.py" ] && [ -d "*/settings.py" ] 2>/dev/null || grep -q "django" requirements.txt 2>/dev/null; then
+        echo "django"
+    # Rails
+    elif [ -f "Gemfile" ] && grep -q "rails" Gemfile 2>/dev/null; then
+        echo "rails"
+    # Go
+    elif [ -f "go.mod" ]; then
+        echo "golang"
+    # Rust
+    elif [ -f "Cargo.toml" ]; then
+        echo "rust"
+    # Node.js (generic)
     elif [ -f "package.json" ]; then
         echo "nodejs"
+    # Generic
     else
         echo "generic"
     fi
 }
 
-FRAMEWORK=${1:-$(detect_framework)}
+# Use provided framework or detect
+if [ -z "$FRAMEWORK" ]; then
+    FRAMEWORK=$(detect_framework)
+fi
+
 echo -e "Detected framework: ${GREEN}$FRAMEWORK${NC}"
-echo ""
-
-# Create directory structure
-echo -e "${YELLOW}Creating directory structure...${NC}"
-mkdir -p "$PROMPTS_DIR"
-mkdir -p "$CLAUDE_DIR/reports"
-
-# Templates to download
-TEMPLATES=(
-    "SECURITY_AUDIT.md"
-    "PERFORMANCE_AUDIT.md"
-    "CODE_REVIEW.md"
-    "DEPLOY_CHECKLIST.md"
-)
 
 # Determine template path based on framework
 case $FRAMEWORK in
@@ -64,24 +113,72 @@ case $FRAMEWORK in
     nextjs)
         TEMPLATE_PATH="templates/nextjs"
         ;;
+    django|rails|golang|rust)
+        TEMPLATE_PATH="templates/base"
+        echo -e "${YELLOW}Note: Using base templates. Framework-specific templates coming soon.${NC}"
+        ;;
     *)
         TEMPLATE_PATH="templates/base"
         ;;
 esac
 
+# Templates to download
+TEMPLATES=(
+    "SECURITY_AUDIT.md"
+    "PERFORMANCE_AUDIT.md"
+    "CODE_REVIEW.md"
+    "DEPLOY_CHECKLIST.md"
+)
+
+echo ""
+
+# Dry run mode
+if [ "$DRY_RUN" = true ]; then
+    echo -e "${CYAN}DRY RUN MODE — No changes will be made${NC}"
+    echo ""
+    echo "Would create:"
+    echo "  $CLAUDE_DIR/"
+    echo "  ├── prompts/"
+    for template in "${TEMPLATES[@]}"; do
+        echo "  │   └── $template"
+    done
+    echo "  └── reports/"
+    if [ ! -f "CLAUDE.md" ]; then
+        echo "  CLAUDE.md"
+    else
+        echo "  CLAUDE.md (already exists, would skip)"
+    fi
+    echo ""
+    echo "Source: $REPO_URL/$TEMPLATE_PATH/"
+    echo ""
+    echo -e "Run without ${CYAN}--dry-run${NC} to apply changes."
+    exit 0
+fi
+
+# Create directory structure
+echo -e "${YELLOW}Creating directory structure...${NC}"
+mkdir -p "$PROMPTS_DIR"
+mkdir -p "$CLAUDE_DIR/reports"
+
 echo -e "${YELLOW}Downloading templates from $TEMPLATE_PATH...${NC}"
 
 # Download templates
+DOWNLOADED=0
+FAILED=0
+
 for template in "${TEMPLATES[@]}"; do
     echo -n "  - $template... "
 
     # Try to download, fall back to base if framework-specific doesn't exist
     if curl -fsSL "$REPO_URL/$TEMPLATE_PATH/$template" -o "$PROMPTS_DIR/$template" 2>/dev/null; then
         echo -e "${GREEN}OK${NC}"
+        DOWNLOADED=$((DOWNLOADED + 1))
     elif curl -fsSL "$REPO_URL/templates/base/$template" -o "$PROMPTS_DIR/$template" 2>/dev/null; then
-        echo -e "${YELLOW}OK (base template)${NC}"
+        echo -e "${YELLOW}OK (base)${NC}"
+        DOWNLOADED=$((DOWNLOADED + 1))
     else
         echo -e "${RED}FAILED${NC}"
+        FAILED=$((FAILED + 1))
     fi
 done
 
@@ -141,10 +238,10 @@ if [ ! -f "CLAUDE.md" ]; then
 
 Run audits and reviews using the prompts in \`.claude/prompts/\`:
 
-- **Security Audit:** \`/SECURITY_AUDIT\` or read \`.claude/prompts/SECURITY_AUDIT.md\`
-- **Performance Audit:** \`/PERFORMANCE_AUDIT\` or read \`.claude/prompts/PERFORMANCE_AUDIT.md\`
-- **Code Review:** \`/CODE_REVIEW\` or read \`.claude/prompts/CODE_REVIEW.md\`
-- **Deploy Checklist:** \`/DEPLOY_CHECKLIST\` or read \`.claude/prompts/DEPLOY_CHECKLIST.md\`
+- **Security Audit:** Read \`.claude/prompts/SECURITY_AUDIT.md\`
+- **Performance Audit:** Read \`.claude/prompts/PERFORMANCE_AUDIT.md\`
+- **Code Review:** Read \`.claude/prompts/CODE_REVIEW.md\`
+- **Deploy Checklist:** Read \`.claude/prompts/DEPLOY_CHECKLIST.md\`
 
 ---
 
@@ -164,7 +261,7 @@ fi
 if [ -f ".gitignore" ]; then
     if ! grep -q ".claude/reports" .gitignore 2>/dev/null; then
         echo "" >> .gitignore
-        echo "# Claude Code reports (optional - may contain sensitive info)" >> .gitignore
+        echo "# Claude Code reports (may contain sensitive info)" >> .gitignore
         echo ".claude/reports/" >> .gitignore
         echo -e "${YELLOW}Added .claude/reports/ to .gitignore${NC}"
     fi
@@ -173,11 +270,17 @@ fi
 echo ""
 echo -e "${GREEN}Done!${NC}"
 echo ""
+echo "Summary:"
+echo "  - Downloaded: $DOWNLOADED templates"
+if [ $FAILED -gt 0 ]; then
+    echo -e "  - Failed: ${RED}$FAILED${NC}"
+fi
+echo ""
 echo "Created structure:"
 echo "  .claude/"
 echo "  ├── prompts/"
 for template in "${TEMPLATES[@]}"; do
-    echo "  │   ├── $template"
+    echo "  │   └── $template"
 done
 echo "  └── reports/"
 echo "  CLAUDE.md"
