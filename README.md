@@ -1,11 +1,11 @@
 # Claude Guides
 
-Переиспользуемые инструкции, аудиты и шаблоны для Claude Code.
+Переиспользуемые инструкции, аудиты, subagents, skills и шаблоны для Claude Code.
 
 [![Quality Check](https://github.com/digitalplanetno/claude-guides/actions/workflows/quality.yml/badge.svg)](https://github.com/digitalplanetno/claude-guides/actions/workflows/quality.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Быстрый старт
+## 🚀 Быстрый старт
 
 ```bash
 # Инициализировать .claude/ в новом проекте
@@ -18,70 +18,205 @@ curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/s
 curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/init-claude.sh | bash -s -- --dry-run
 ```
 
-## Структура
+## ✨ Что нового в v2.0
+
+- 🤖 **Subagents** — специализированные агенты для code review, тестирования, безопасности
+- 🧠 **Skills** — глубокая экспертиза по Laravel и Next.js
+- ⚡ **Hooks** — автоматическое форматирование, аудит команд, логирование
+- 📋 **Plan Mode** — инструкции для планирования перед кодом
+- 🔧 **Новые команды** — /plan, /tdd, /context-prime, /checkpoint
+
+## 📁 Структура
 
 ```
 claude-guides/
 ├── templates/
-│   ├── base/           # Базовые шаблоны (framework-agnostic)
-│   ├── laravel/        # Laravel + Vue + Inertia
-│   └── nextjs/         # Next.js + TypeScript
-├── components/         # Переиспользуемые блоки
-├── commands/           # Slash-команды для Claude
-├── scripts/            # Скрипты инициализации
-└── examples/           # Примеры готовых конфигураций
-    ├── laravel-saas/   # SaaS на Laravel
-    ├── nextjs-dashboard/ # Dashboard на Next.js
-    └── monorepo/       # Turborepo monorepo
+│   ├── base/                    # Framework-agnostic шаблоны
+│   │   ├── CLAUDE.md            # Базовый шаблон
+│   │   ├── settings.json        # Hooks и permissions
+│   │   ├── SECURITY_AUDIT.md
+│   │   ├── PERFORMANCE_AUDIT.md
+│   │   ├── CODE_REVIEW.md
+│   │   ├── DEPLOY_CHECKLIST.md
+│   │   └── agents/              # Базовые subagents
+│   │       ├── code-reviewer.md
+│   │       ├── test-writer.md
+│   │       └── planner.md
+│   ├── laravel/                 # Laravel + Vue + Inertia
+│   │   ├── CLAUDE.md
+│   │   ├── settings.json
+│   │   ├── agents/
+│   │   │   └── laravel-expert.md
+│   │   ├── skills/
+│   │   │   └── laravel/SKILL.md
+│   │   └── ... (audits)
+│   └── nextjs/                  # Next.js + TypeScript
+│       ├── CLAUDE.md
+│       ├── settings.json
+│       ├── agents/
+│       │   └── nextjs-expert.md
+│       ├── skills/
+│       │   └── nextjs/SKILL.md
+│       └── ... (audits)
+├── commands/                    # Slash-команды
+│   ├── audit.md
+│   ├── plan.md                  # 🆕 Планирование
+│   ├── tdd.md                   # 🆕 Test-Driven Development
+│   ├── context-prime.md         # 🆕 Загрузка контекста
+│   ├── checkpoint.md            # 🆕 Сохранение прогресса
+│   ├── handoff.md               # 🆕 Передача задачи
+│   └── ... (existing)
+├── components/                  # Переиспользуемые блоки
+│   ├── plan-mode-instructions.md  # 🆕
+│   ├── git-worktrees-guide.md     # 🆕
+│   ├── severity-levels.md
+│   ├── self-check-section.md
+│   └── ...
+├── examples/                    # Готовые конфигурации
+└── scripts/                     # Скрипты инициализации
 ```
 
-## Доступные шаблоны
+## 🤖 Subagents
 
-### Аудиты
+Subagents — специализированные агенты для делегирования задач:
 
-| Шаблон | Описание |
-|--------|----------|
-| `SECURITY_AUDIT.md` | Комплексный аудит безопасности |
-| `PERFORMANCE_AUDIT.md` | Аудит производительности |
-| `CODE_REVIEW.md` | Code review чеклист |
-| `DEPLOY_CHECKLIST.md` | Чеклист перед деплоем |
+| Agent | Файл | Описание |
+|-------|------|----------|
+| Code Reviewer | `agents/code-reviewer.md` | Глубокий code review с чеклистом |
+| Test Writer | `agents/test-writer.md` | TDD-style написание тестов |
+| Planner | `agents/planner.md` | Создание implementation plans |
+| Security Auditor | `agents/security-auditor.md` | Фокус на безопасности |
 
-### Framework-специфичные версии
+**Использование:**
+```
+/agent:code-reviewer app/Http/Controllers/
+/agent:test-writer UserService
+```
 
-**Laravel** (`templates/laravel/`):
+## 🧠 Skills
+
+Skills — глубокая экспертиза по конкретным технологиям:
+
+| Skill | Путь | Описание |
+|-------|------|----------|
+| Laravel Expert | `skills/laravel/SKILL.md` | Eloquent, паттерны, производительность |
+| Next.js Expert | `skills/nextjs/SKILL.md` | App Router, SSR, оптимизация |
+
+Skills автоматически активируются когда контекст релевантен.
+
+## ⚡ Hooks
+
+Автоматизация рутинных задач через `.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./vendor/bin/pint $FILE_PATH --quiet"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Включённые hooks:**
+- ✅ Auto-format PHP (Pint) после редактирования
+- ✅ Auto-format JS/Vue (Prettier) после редактирования
+- ✅ Аудит bash команд в лог
+- ✅ Логирование сессий
+
+## 📋 Slash-команды
+
+### Новые команды
+
+| Команда | Описание |
+|---------|----------|
+| `/plan` | Создать план реализации (Plan Mode) |
+| `/tdd` | Test-Driven Development workflow |
+| `/context-prime` | Загрузить контекст проекта |
+| `/checkpoint` | Сохранить прогресс в scratchpad |
+| `/handoff` | Подготовить передачу задачи |
+
+### Существующие команды
+
+| Команда | Описание |
+|---------|----------|
+| `/audit` | Запустить аудит проекта |
+| `/test` | Написать тесты |
+| `/refactor` | Рефакторинг кода |
+| `/doc` | Документация |
+| `/fix` | Исправить проблему |
+| `/explain` | Объяснить код |
+| `/migrate` | Помощь с миграциями |
+
+## 🎯 План перед кодом (ВАЖНО!)
+
+Главная рекомендация от Anthropic — **всегда планировать перед написанием кода**.
+
+### Workflow
+
+1. **Активируй Plan Mode** — `Shift+Tab` дважды
+2. **Используй уровни размышления:**
+   - `think` — простые задачи
+   - `think hard` — средняя сложность
+   - `think harder` — архитектурные решения
+   - `ultrathink` — критические решения
+3. **Сохрани план** в `.claude/scratchpad/`
+4. **Получи подтверждение** перед написанием кода
+
+### Пример
+
+```
+"Проанализируй задачу добавления OAuth. 
+Think harder о edge cases и безопасности.
+НЕ ПИШИ КОД — только план в .claude/scratchpad/oauth-plan.md"
+```
+
+## 📊 Аудиты
+
+### Framework-специфичные
+
+**Laravel:**
 - SQL Injection, Mass Assignment, CSRF
 - Eloquent N+1, Query optimization
 - Services, FormRequests, Policies
-- Artisan commands, Queue workers
 
-**Next.js** (`templates/nextjs/`):
+**Next.js:**
 - API Routes security, SSRF protection
 - Bundle size, SSR/CSR optimization
-- React hooks, Server Components
-- Vercel deployment, Edge functions
+- Server Components, Edge functions
 
-### Поддерживаемые фреймворки
+### Quick Check (30 секунд)
 
-| Framework | Templates | Auto-detection |
-|-----------|-----------|----------------|
-| Laravel | ✅ Full | `artisan` file |
-| Next.js | ✅ Full | `next.config.*` |
-| Django | 🔄 Base | `manage.py` + requirements |
-| Rails | 🔄 Base | `Gemfile` with rails |
-| Go | 🔄 Base | `go.mod` |
-| Rust | 🔄 Base | `Cargo.toml` |
-| Node.js | 🔄 Base | `package.json` |
+```bash
+# Security
+grep -rn "DB::raw\|whereRaw" app/
+grep -rn '$guarded.*=.*\[\]' app/Models/
 
-## Использование
+# Performance
+grep -rn "->get().*foreach" app/
+
+# Code Quality
+grep -rn "dd(\|dump(\|console.log" app/ resources/
+```
+
+## 🔧 Использование
 
 ### 1. Ручная установка
 
 ```bash
 # Для Laravel проекта
-cp -r templates/laravel/* your-project/.claude/prompts/
+cp -r templates/laravel/* your-project/.claude/
 
 # Для Next.js проекта
-cp -r templates/nextjs/* your-project/.claude/prompts/
+cp -r templates/nextjs/* your-project/.claude/
 ```
 
 ### 2. Автоматическая инициализация
@@ -91,52 +226,17 @@ cp -r templates/nextjs/* your-project/.claude/prompts/
 cd your-project
 /path/to/claude-guides/scripts/init-local.sh
 
-# Или с GitHub
+# С GitHub
 curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/init-claude.sh | bash
 ```
 
-### 3. Обновление шаблонов
+### 3. Обновление
 
 ```bash
-# Обновить шаблоны в существующем проекте
 curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/update-claude.sh | bash
-
-# С бэкапом (по умолчанию)
-./update-claude.sh
-
-# Без бэкапа
-./update-claude.sh --no-backup
-
-# Dry-run
-./update-claude.sh --dry-run
 ```
 
-## Slash-команды
-
-| Команда | Файл | Описание |
-|---------|------|----------|
-| `/audit` | `commands/audit.md` | Запустить аудит проекта |
-| `/doc` | `commands/doc.md` | Задокументировать код |
-| `/fix` | `commands/fix.md` | Исправить найденную проблему |
-| `/explain` | `commands/explain.md` | Объяснить код/архитектуру |
-| `/test` | `commands/test.md` | Написать тесты |
-| `/refactor` | `commands/refactor.md` | Рефакторинг кода |
-| `/migrate` | `commands/migrate.md` | Помощь с миграциями БД |
-| `/find-script` | `commands/find-script.md` | Найти скрипт |
-| `/find-function` | `commands/find-function.md` | Найти функцию |
-
-## Компоненты
-
-Переиспользуемые блоки для вставки в свои инструкции:
-
-| Компонент | Описание |
-|-----------|----------|
-| `severity-levels.md` | Уровни критичности (CRITICAL → LOW) |
-| `self-check-section.md` | Секция самопроверки (фильтр реальности) |
-| `report-format.md` | Шаблон формата отчёта |
-| `quick-check-scripts.md` | Bash-скрипты для быстрых проверок |
-
-## Триггеры в CLAUDE.md
+## 📚 Триггеры в CLAUDE.md
 
 Добавь в свой `CLAUDE.md`:
 
@@ -145,70 +245,53 @@ curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/s
 
 | Триггер | Действие |
 |---------|----------|
-| "security audit", "аудит безопасности" | Выполни `.claude/prompts/SECURITY_AUDIT.md` |
-| "performance audit", "аудит производительности" | Выполни `.claude/prompts/PERFORMANCE_AUDIT.md` |
-| "code review", "ревью кода" | Выполни `.claude/prompts/CODE_REVIEW.md` |
-| "deploy checklist", "готов к деплою?" | Выполни `.claude/prompts/DEPLOY_CHECKLIST.md` |
+| "security audit" | Выполни `.claude/prompts/SECURITY_AUDIT.md` |
+| "performance audit" | Выполни `.claude/prompts/PERFORMANCE_AUDIT.md` |
+| "code review" | Выполни `.claude/prompts/CODE_REVIEW.md` |
+| "deploy checklist" | Выполни `.claude/prompts/DEPLOY_CHECKLIST.md` |
+
+## SUBAGENTS
+
+| Команда | Агент |
+|---------|-------|
+| `/agent:code-reviewer` | Code review с чеклистом |
+| `/agent:test-writer` | Написание тестов (TDD) |
+| `/agent:planner` | Планирование задач |
 ```
 
-## Разработка
+## 🏗️ Поддерживаемые фреймворки
 
-```bash
-# Установить зависимости
-make install
+| Framework | Templates | Skills | Auto-detection |
+|-----------|-----------|--------|----------------|
+| Laravel | ✅ Full | ✅ Yes | `artisan` file |
+| Next.js | ✅ Full | ✅ Yes | `next.config.*` |
+| Django | 🔄 Base | 🔜 Soon | `manage.py` |
+| Rails | 🔄 Base | 🔜 Soon | `Gemfile` |
+| Go | 🔄 Base | — | `go.mod` |
+| Rust | 🔄 Base | — | `Cargo.toml` |
 
-# Запустить линтеры
-make lint
+## 💡 Принципы
 
-# Запустить тесты
-make test
+1. **Plan First** — Всегда планируй перед написанием кода
+2. **DRY** — Не дублируй инструкции между проектами
+3. **Специфичность** — Framework-specific детали отдельно
+4. **Самопроверка** — Фильтруй false positives
+5. **Actionable** — Конкретные команды и примеры
 
-# Валидация шаблонов
-make validate
-```
+## 🔗 Полезные ресурсы
 
-### Pre-commit hooks
+- [Официальные best practices от Anthropic](https://www.anthropic.com/engineering/claude-code-best-practices)
+- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) — коллекция ресурсов
+- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 
-```bash
-pip install pre-commit
-pre-commit install
-```
-
-## Кастомизация
-
-### Добавление project-specific секций
-
-В каждом шаблоне есть секция `## 0.2 PROJECT SPECIFICS`:
-
-```markdown
-## 0.2 PROJECT SPECIFICS — [Project Name]
-
-**Что уже реализовано:**
-- ✅ [Существующие security controls]
-
-**Публичные endpoints (by design):**
-- `/api/health` — health check
-- `/webhooks/*` — webhooks с signature verification
-
-**Известные особенности:**
-- [Project-specific notes]
-```
-
-## Принципы
-
-1. **DRY** — Не дублируй инструкции между проектами
-2. **Специфичность** — Framework-specific детали в отдельных файлах
-3. **Самопроверка** — Каждый аудит имеет секцию фильтрации false positives
-4. **Actionable** — Конкретные команды и примеры кода
-
-## Contributing
+## 🤝 Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-## Security
+## 🔒 Security
 
 See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
 
-## License
+## 📄 License
 
 MIT — see [LICENSE](LICENSE)

@@ -1,152 +1,95 @@
-# MySaaS — Claude Code Instructions
+# Lantern SaaS — Claude Code Instructions
 
-## Project Overview
+## 🎯 Project Overview
 
-**Framework:** Laravel 11 + Vue 3 + Inertia.js
-**Type:** Multi-tenant SaaS application
-**Description:** B2B SaaS platform with subscription billing, team management, and API access.
+**Stack:** Laravel 11 + Vue 3 + Inertia.js + Tailwind CSS
+**Type:** SaaS — Site analyzer and monitoring tool
+**Database:** MySQL 8.0
+**PHP:** 8.3 | **Node:** 20
 
 ---
 
-## Key Directories
+## 🧠 WORKFLOW RULES
+
+### Plan Mode — ALWAYS USE BEFORE CODING
+
+1. **Activate Plan Mode** — `Shift+Tab` twice
+2. **Research** the task and existing code
+3. **Create plan** in `.claude/scratchpad/current-task.md`
+4. **Wait for approval** before writing code
+
+| Level | When |
+|-------|------|
+| `think` | Simple changes |
+| `think hard` | Medium complexity |
+| `think harder` | Architecture decisions |
+| `ultrathink` | Security, payments |
+
+---
+
+## 📁 Project Structure
 
 ```
 app/
-├── Actions/           # Single-purpose action classes
-├── Http/
-│   ├── Controllers/   # Thin controllers (delegate to Actions)
-│   ├── Middleware/    # Auth, tenant, subscription checks
-│   └── Requests/      # Form validation
-├── Models/            # Eloquent models with scopes
-├── Services/          # Business logic (PaymentService, etc.)
-├── Jobs/              # Background jobs (email, billing, etc.)
-└── Policies/          # Authorization policies
+├── Actions/           # CreateSite, RunCheck, etc.
+├── Http/Controllers/  # Thin, delegate to Actions
+├── Models/            # Site, Check, User, Team
+├── Services/          # AnalyzerService, NotificationService
+├── Jobs/              # ProcessCheck, SendAlert
+└── Policies/          # SitePolicy, TeamPolicy
 
-resources/
-├── js/
-│   ├── Pages/         # Inertia pages
-│   ├── Components/    # Vue components
-│   └── Composables/   # Vue composables
-└── views/             # Blade templates (emails, PDF)
-
-database/
-├── migrations/        # Schema migrations
-└── seeders/           # Development data
+resources/js/
+├── Pages/             # Inertia pages
+├── Components/
+│   ├── UI/            # Button, Modal, Card
+│   └── Sites/         # SiteCard, CheckHistory
+└── Composables/       # useSite, useTeam
 ```
 
 ---
 
-## Architecture Decisions
+## ⚡ Commands
 
-### Multi-tenancy
-- **Model:** Single database, `tenant_id` column
-- **Scoping:** Global scope `TenantScope` on all tenant models
-- **Switching:** Middleware sets current tenant from subdomain
-
-### Billing
-- **Provider:** Stripe via Laravel Cashier
-- **Plans:** Free, Pro ($29/mo), Enterprise (custom)
-- **Enforcement:** `SubscriptionMiddleware` checks plan limits
-
-### Background Jobs
-- **Queue:** Redis with Horizon
-- **Workers:** 3 workers, default/high/low queues
-- **Monitoring:** Horizon dashboard at `/horizon`
-
----
-
-## Development Workflow
-
-### Running Locally
 ```bash
-composer install
-npm install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate --seed
-npm run dev
-php artisan serve
-```
+# Dev
+npm run dev && php artisan serve
 
-### Testing
-```bash
-php artisan test                    # All tests
-php artisan test --filter=Billing   # Specific
-php artisan test --coverage         # Coverage report
-```
+# Test
+php artisan test
+./vendor/bin/pint  # Format PHP
 
-### Building
-```bash
-npm run build
-php artisan config:cache
-php artisan route:cache
+# Queue
+php artisan queue:work
 ```
 
 ---
 
-## Project-Specific Rules
+## 🔒 Security Rules
 
-### Code Style
-1. **Controllers** — Max 5 methods, delegate to Actions
-2. **Actions** — Single responsibility, `handle()` method
-3. **Services** — Stateless, injected via constructor
-4. **Models** — No business logic, only relationships and scopes
+```php
+// ❌ NEVER
+DB::raw("... $userInput ...");
+protected $guarded = [];
 
-### Naming
-- Actions: `CreateUser`, `UpdateSubscription` (verb + noun)
-- Jobs: `SendWelcomeEmail`, `ProcessPayment` (verb + noun)
-- Events: `UserCreated`, `SubscriptionCanceled` (noun + past tense)
-
-### Security
-- All tenant data queries MUST use `TenantScope`
-- API keys stored in `api_keys` table, hashed
-- Rate limiting: 60/min for API, 1000/min for webhooks
-
----
-
-## Available Prompts
-
-Run audits and reviews using the prompts in `.claude/prompts/`:
-
-- **Security Audit:** Focus on tenant isolation, API auth, payment security
-- **Performance Audit:** Focus on N+1, queue optimization, caching
-- **Code Review:** Focus on SRP, tenant scoping, billing logic
-- **Deploy Checklist:** Include Horizon restart, Stripe webhook check
-
----
-
-## Environment Variables
-
-```ini
-# Required
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://app.mysaas.com
-
-# Database
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_DATABASE=mysaas
-
-# Redis (sessions, cache, queue)
-REDIS_HOST=127.0.0.1
-CACHE_DRIVER=redis
-SESSION_DRIVER=redis
-QUEUE_CONNECTION=redis
-
-# Stripe
-STRIPE_KEY=pk_live_...
-STRIPE_SECRET=sk_live_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-
-# Mail
-MAIL_MAILER=ses
+// ✅ ALWAYS
+$request->validated();
+$this->authorize('update', $site);
 ```
 
 ---
 
-## Contacts
+## 🤖 Agents
 
-- **Maintainer:** Team Lead
-- **Documentation:** https://docs.mysaas.com
-- **Slack:** #mysaas-dev
+| Command | Purpose |
+|---------|---------|
+| `/agent:code-reviewer` | Code review |
+| `/agent:test-writer` | TDD tests |
+| `/agent:laravel-expert` | Laravel help |
+
+---
+
+## ⚠️ Project Notes
+
+- Multi-tenant via Team model
+- Rate limited to 100 checks/day per team
+- Redis for queues and cache

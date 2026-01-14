@@ -1,34 +1,22 @@
 #!/bin/bash
-# init-claude.sh — Initialize Claude Code configuration for a project
-#
-# Usage:
-#   curl -fsSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/init-claude.sh | bash
-#   # or
-#   ./init-claude.sh [--dry-run] [framework]
-#
-# Frameworks: laravel, nextjs, django, rails, golang, rust, auto (default)
-#
-# Options:
-#   --dry-run    Show what would be created without making changes
+
+# Claude Guides Initialization Script
+# Usage: curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/init-claude.sh | bash
+# Or: curl -sSL ... | bash -s -- laravel
+# Or: curl -sSL ... | bash -s -- --dry-run
 
 set -e
-
-VERSION="1.1.0"
 
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Configuration
+# Config
 REPO_URL="https://raw.githubusercontent.com/digitalplanetno/claude-guides/main"
 CLAUDE_DIR=".claude"
-PROMPTS_DIR="$CLAUDE_DIR/prompts"
-
-# Flags
 DRY_RUN=false
 FRAMEWORK=""
 
@@ -39,255 +27,215 @@ while [[ $# -gt 0 ]]; do
             DRY_RUN=true
             shift
             ;;
-        --version|-v)
-            echo "claude-guides v$VERSION"
-            exit 0
-            ;;
-        --help|-h)
-            echo "Usage: init-claude.sh [--dry-run] [framework]"
-            echo ""
-            echo "Frameworks: laravel, nextjs, django, rails, golang, rust, nodejs, generic"
-            echo ""
-            echo "Options:"
-            echo "  --dry-run    Show what would be created"
-            echo "  --version    Show version"
-            echo "  --help       Show this help"
-            exit 0
-            ;;
-        -*)
-            echo "Unknown option: $1"
-            exit 1
-            ;;
-        *)
+        laravel|nextjs|base)
             FRAMEWORK="$1"
             shift
+            ;;
+        *)
+            echo -e "${RED}Unknown argument: $1${NC}"
+            exit 1
             ;;
     esac
 done
 
-echo -e "${BLUE}Claude Code Configuration Initializer v$VERSION${NC}"
-echo "=============================================="
-echo ""
-
-# Detect framework
+# Detect framework if not specified
 detect_framework() {
-    # Laravel
-    if [ -f "artisan" ]; then
+    if [[ -f "artisan" ]]; then
         echo "laravel"
-    # Next.js
-    elif [ -f "next.config.js" ] || [ -f "next.config.ts" ] || [ -f "next.config.mjs" ]; then
+    elif [[ -f "next.config.js" ]] || [[ -f "next.config.mjs" ]] || [[ -f "next.config.ts" ]]; then
         echo "nextjs"
-    # Django
-    elif [ -f "manage.py" ] && [ -d "*/settings.py" ] 2>/dev/null || grep -q "django" requirements.txt 2>/dev/null; then
-        echo "django"
-    # Rails
-    elif [ -f "Gemfile" ] && grep -q "rails" Gemfile 2>/dev/null; then
-        echo "rails"
-    # Go
-    elif [ -f "go.mod" ]; then
-        echo "golang"
-    # Rust
-    elif [ -f "Cargo.toml" ]; then
-        echo "rust"
-    # Node.js (generic)
-    elif [ -f "package.json" ]; then
-        echo "nodejs"
-    # Generic
     else
-        echo "generic"
+        echo "base"
     fi
 }
 
-# Use provided framework or detect
-if [ -z "$FRAMEWORK" ]; then
+if [[ -z "$FRAMEWORK" ]]; then
     FRAMEWORK=$(detect_framework)
 fi
 
-echo -e "Detected framework: ${GREEN}$FRAMEWORK${NC}"
-
-# Determine template path based on framework
-case $FRAMEWORK in
-    laravel)
-        TEMPLATE_PATH="templates/laravel"
-        ;;
-    nextjs)
-        TEMPLATE_PATH="templates/nextjs"
-        ;;
-    django|rails|golang|rust)
-        TEMPLATE_PATH="templates/base"
-        echo -e "${YELLOW}Note: Using base templates. Framework-specific templates coming soon.${NC}"
-        ;;
-    *)
-        TEMPLATE_PATH="templates/base"
-        ;;
-esac
-
-# Templates to download
-TEMPLATES=(
-    "SECURITY_AUDIT.md"
-    "PERFORMANCE_AUDIT.md"
-    "CODE_REVIEW.md"
-    "DEPLOY_CHECKLIST.md"
-)
-
+echo -e "${BLUE}╔════════════════════════════════════════╗${NC}"
+echo -e "${BLUE}║     Claude Guides Initialization       ║${NC}"
+echo -e "${BLUE}╚════════════════════════════════════════╝${NC}"
+echo ""
+echo -e "📁 Framework detected: ${GREEN}$FRAMEWORK${NC}"
+echo -e "📂 Target directory: ${GREEN}$CLAUDE_DIR${NC}"
 echo ""
 
-# Dry run mode
-if [ "$DRY_RUN" = true ]; then
-    echo -e "${CYAN}DRY RUN MODE — No changes will be made${NC}"
+if [[ "$DRY_RUN" == true ]]; then
+    echo -e "${YELLOW}🔍 DRY RUN - No files will be created${NC}"
     echo ""
-    echo "Would create:"
-    echo "  $CLAUDE_DIR/"
-    echo "  ├── prompts/"
-    for template in "${TEMPLATES[@]}"; do
-        echo "  │   └── $template"
-    done
-    echo "  └── reports/"
-    if [ ! -f "CLAUDE.md" ]; then
-        echo "  CLAUDE.md"
-    else
-        echo "  CLAUDE.md (already exists, would skip)"
-    fi
-    echo ""
-    echo "Source: $REPO_URL/$TEMPLATE_PATH/"
-    echo ""
-    echo -e "Run without ${CYAN}--dry-run${NC} to apply changes."
-    exit 0
+fi
+
+# Files to download
+declare -a FILES=(
+    # Core
+    "templates/$FRAMEWORK/CLAUDE.md:CLAUDE.md"
+    "templates/$FRAMEWORK/settings.json:settings.json"
+    
+    # Prompts
+    "templates/$FRAMEWORK/SECURITY_AUDIT.md:prompts/SECURITY_AUDIT.md"
+    "templates/$FRAMEWORK/PERFORMANCE_AUDIT.md:prompts/PERFORMANCE_AUDIT.md"
+    "templates/$FRAMEWORK/CODE_REVIEW.md:prompts/CODE_REVIEW.md"
+    "templates/$FRAMEWORK/DEPLOY_CHECKLIST.md:prompts/DEPLOY_CHECKLIST.md"
+    
+    # Agents
+    "templates/base/agents/code-reviewer.md:agents/code-reviewer.md"
+    "templates/base/agents/test-writer.md:agents/test-writer.md"
+    "templates/base/agents/planner.md:agents/planner.md"
+    
+    # Commands
+    "commands/plan.md:commands/plan.md"
+    "commands/tdd.md:commands/tdd.md"
+    "commands/context-prime.md:commands/context-prime.md"
+    "commands/checkpoint.md:commands/checkpoint.md"
+    "commands/handoff.md:commands/handoff.md"
+    "commands/audit.md:commands/audit.md"
+    "commands/test.md:commands/test.md"
+    "commands/refactor.md:commands/refactor.md"
+    "commands/doc.md:commands/doc.md"
+    "commands/fix.md:commands/fix.md"
+    "commands/explain.md:commands/explain.md"
+)
+
+# Add framework-specific files
+if [[ "$FRAMEWORK" == "laravel" ]]; then
+    FILES+=(
+        "templates/laravel/agents/laravel-expert.md:agents/laravel-expert.md"
+        "templates/laravel/skills/laravel/SKILL.md:skills/laravel/SKILL.md"
+    )
+elif [[ "$FRAMEWORK" == "nextjs" ]]; then
+    FILES+=(
+        "templates/nextjs/agents/nextjs-expert.md:agents/nextjs-expert.md"
+        "templates/nextjs/skills/nextjs/SKILL.md:skills/nextjs/SKILL.md"
+    )
 fi
 
 # Create directory structure
-echo -e "${YELLOW}Creating directory structure...${NC}"
-mkdir -p "$PROMPTS_DIR"
-mkdir -p "$CLAUDE_DIR/reports"
+create_structure() {
+    echo -e "${BLUE}📁 Creating directory structure...${NC}"
+    
+    local dirs=(
+        "$CLAUDE_DIR"
+        "$CLAUDE_DIR/prompts"
+        "$CLAUDE_DIR/agents"
+        "$CLAUDE_DIR/commands"
+        "$CLAUDE_DIR/skills"
+        "$CLAUDE_DIR/scratchpad"
+    )
+    
+    for dir in "${dirs[@]}"; do
+        if [[ "$DRY_RUN" == true ]]; then
+            echo "  Would create: $dir"
+        else
+            mkdir -p "$dir"
+            echo -e "  ${GREEN}✓${NC} $dir"
+        fi
+    done
+}
 
-echo -e "${YELLOW}Downloading templates from $TEMPLATE_PATH...${NC}"
+# Download files
+download_files() {
+    echo ""
+    echo -e "${BLUE}📥 Downloading files...${NC}"
+    
+    for file_spec in "${FILES[@]}"; do
+        IFS=':' read -r src dest <<< "$file_spec"
+        local full_dest="$CLAUDE_DIR/$dest"
+        local full_url="$REPO_URL/$src"
+        
+        # Create parent directory
+        local parent_dir=$(dirname "$full_dest")
+        
+        if [[ "$DRY_RUN" == true ]]; then
+            echo "  Would download: $src → $full_dest"
+        else
+            mkdir -p "$parent_dir"
+            if curl -sSL "$full_url" -o "$full_dest" 2>/dev/null; then
+                echo -e "  ${GREEN}✓${NC} $dest"
+            else
+                echo -e "  ${YELLOW}⚠${NC} $dest (using base template)"
+                # Try base template as fallback
+                local base_src="${src/templates\/$FRAMEWORK/templates\/base}"
+                curl -sSL "$REPO_URL/$base_src" -o "$full_dest" 2>/dev/null || true
+            fi
+        fi
+    done
+}
 
-# Download templates
-DOWNLOADED=0
-FAILED=0
-
-for template in "${TEMPLATES[@]}"; do
-    echo -n "  - $template... "
-
-    # Try to download, fall back to base if framework-specific doesn't exist
-    if curl -fsSL "$REPO_URL/$TEMPLATE_PATH/$template" -o "$PROMPTS_DIR/$template" 2>/dev/null; then
-        echo -e "${GREEN}OK${NC}"
-        DOWNLOADED=$((DOWNLOADED + 1))
-    elif curl -fsSL "$REPO_URL/templates/base/$template" -o "$PROMPTS_DIR/$template" 2>/dev/null; then
-        echo -e "${YELLOW}OK (base)${NC}"
-        DOWNLOADED=$((DOWNLOADED + 1))
+# Create .gitignore
+create_gitignore() {
+    echo ""
+    echo -e "${BLUE}📝 Creating .gitignore...${NC}"
+    
+    local gitignore="$CLAUDE_DIR/.gitignore"
+    
+    if [[ "$DRY_RUN" == true ]]; then
+        echo "  Would create: $gitignore"
     else
-        echo -e "${RED}FAILED${NC}"
-        FAILED=$((FAILED + 1))
+        cat > "$gitignore" << 'GITIGNORE'
+# Claude Code local files
+scratchpad/
+activity.log
+audit.log
+*.local.md
+GITIGNORE
+        echo -e "  ${GREEN}✓${NC} .gitignore"
     fi
-done
+}
 
-# Create CLAUDE.md if it doesn't exist
-if [ ! -f "CLAUDE.md" ]; then
+# Create initial scratchpad
+create_scratchpad() {
     echo ""
-    echo -e "${YELLOW}Creating CLAUDE.md...${NC}"
+    echo -e "${BLUE}📋 Creating scratchpad template...${NC}"
+    
+    local scratchpad="$CLAUDE_DIR/scratchpad/current-task.md"
+    
+    if [[ "$DRY_RUN" == true ]]; then
+        echo "  Would create: $scratchpad"
+    else
+        cat > "$scratchpad" << 'SCRATCHPAD'
+# Current Task
 
-    PROJECT_NAME=$(basename "$(pwd)")
+## Description
+[What are you working on?]
 
-    cat > CLAUDE.md << EOF
-# $PROJECT_NAME — Claude Code Instructions
+## Progress
+- [ ] Phase 1
+- [ ] Phase 2
+- [ ] Phase 3
 
-## Project Overview
+## Notes
+[Any relevant notes]
 
-**Framework:** $FRAMEWORK
-**Description:** [Brief description of the project]
-
----
-
-## Key Directories
-
-\`\`\`
-[List your main directories and what they contain]
-\`\`\`
-
----
-
-## Development Workflow
-
-### Running Locally
-\`\`\`bash
-# Add your local development commands
-\`\`\`
-
-### Testing
-\`\`\`bash
-# Add your test commands
-\`\`\`
-
-### Building
-\`\`\`bash
-# Add your build commands
-\`\`\`
-
----
-
-## Project-Specific Rules
-
-1. [Add project-specific coding rules]
-2. [Add architecture decisions]
-3. [Add naming conventions]
-
----
-
-## Available Prompts
-
-Run audits and reviews using the prompts in \`.claude/prompts/\`:
-
-- **Security Audit:** Read \`.claude/prompts/SECURITY_AUDIT.md\`
-- **Performance Audit:** Read \`.claude/prompts/PERFORMANCE_AUDIT.md\`
-- **Code Review:** Read \`.claude/prompts/CODE_REVIEW.md\`
-- **Deploy Checklist:** Read \`.claude/prompts/DEPLOY_CHECKLIST.md\`
-
----
-
-## Contacts
-
-- **Maintainer:** [Your name]
-- **Documentation:** [Link to docs]
-EOF
-
-    echo -e "  ${GREEN}Created CLAUDE.md${NC}"
-else
-    echo ""
-    echo -e "${YELLOW}CLAUDE.md already exists, skipping...${NC}"
-fi
-
-# Create .gitignore entries if needed
-if [ -f ".gitignore" ]; then
-    if ! grep -q ".claude/reports" .gitignore 2>/dev/null; then
-        echo "" >> .gitignore
-        echo "# Claude Code reports (may contain sensitive info)" >> .gitignore
-        echo ".claude/reports/" >> .gitignore
-        echo -e "${YELLOW}Added .claude/reports/ to .gitignore${NC}"
+## Blockers
+- None
+SCRATCHPAD
+        echo -e "  ${GREEN}✓${NC} scratchpad/current-task.md"
     fi
-fi
+}
 
-echo ""
-echo -e "${GREEN}Done!${NC}"
-echo ""
-echo "Summary:"
-echo "  - Downloaded: $DOWNLOADED templates"
-if [ $FAILED -gt 0 ]; then
-    echo -e "  - Failed: ${RED}$FAILED${NC}"
-fi
-echo ""
-echo "Created structure:"
-echo "  .claude/"
-echo "  ├── prompts/"
-for template in "${TEMPLATES[@]}"; do
-    echo "  │   └── $template"
-done
-echo "  └── reports/"
-echo "  CLAUDE.md"
-echo ""
-echo -e "${BLUE}Next steps:${NC}"
-echo "1. Edit CLAUDE.md to add project-specific instructions"
-echo "2. Customize templates in .claude/prompts/ for your project"
-echo "3. Run audits: read the prompt file and follow instructions"
-echo ""
-echo -e "${GREEN}Happy coding!${NC}"
+# Main
+main() {
+    create_structure
+    download_files
+    create_gitignore
+    create_scratchpad
+    
+    echo ""
+    echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║     ✅ Initialization Complete!        ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
+    echo ""
+    echo -e "Next steps:"
+    echo -e "  1. Review and customize ${BLUE}$CLAUDE_DIR/CLAUDE.md${NC}"
+    echo -e "  2. Update project-specific sections"
+    echo -e "  3. Commit the ${BLUE}$CLAUDE_DIR${NC} directory"
+    echo ""
+    echo -e "Available commands:"
+    echo -e "  ${YELLOW}/plan${NC}     — Create implementation plan"
+    echo -e "  ${YELLOW}/tdd${NC}      — Test-driven development"
+    echo -e "  ${YELLOW}/audit${NC}    — Run security/performance audit"
+    echo ""
+}
+
+main
