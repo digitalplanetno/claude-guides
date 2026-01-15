@@ -101,6 +101,8 @@ Skills — глубокая экспертиза по конкретным те�
 |-------|------|----------|
 | Laravel Expert | `skills/laravel/SKILL.md` | Eloquent, паттерны, производительность |
 | Next.js Expert | `skills/nextjs/SKILL.md` | App Router, SSR, оптимизация |
+| Shadcn UI Expert | `skills/shadcn/SKILL.md` | Компоненты, cn(), формы, темы |
+| Tailwind CSS Expert | `skills/tailwind/SKILL.md` | Утилиты, порядок классов, responsive |
 
 Skills автоматически активируются когда контекст релевантен.
 

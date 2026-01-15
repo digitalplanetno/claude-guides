@@ -125,6 +125,18 @@ if (!session) return new Response('Unauthorized', { status: 401 });
 
 ---
 
+## 🧠 Available Skills
+
+| Skill | Описание |
+|-------|----------|
+| Next.js Expert | App Router, Server Components, SSR/ISR, caching |
+| Shadcn UI Expert | Компоненты, cn() utility, формы (RHF + Zod), темы |
+| Tailwind CSS Expert | Class ordering, responsive, accessibility |
+
+Skills активируются автоматически по контексту.
+
+---
+
 ## 📋 Available Audits
 
 | Trigger | Action |
