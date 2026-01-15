@@ -21,7 +21,7 @@ allowed-tools:
 ## 🎯 Severity Levels
 
 | Level | Icon | Описание | Требует |
-|-------|------|----------|---------|
+| ------- | ------ | ---------- | --------- |
 | CRITICAL | 🔴 | Security vulnerabilities, data loss risk | Немедленного исправления |
 | HIGH | 🟠 | Bugs, significant issues | Исправления до merge |
 | MEDIUM | 🟡 | Code smells, maintainability | Желательно исправить |

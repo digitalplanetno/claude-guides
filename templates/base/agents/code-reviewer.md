@@ -28,7 +28,7 @@ Perform comprehensive code review focusing on:
 ## Severity Levels
 
 | Level | Icon | Criteria | Action Required |
-|-------|------|----------|-----------------|
+| ------- | ------ | ---------- | ----------------- |
 | CRITICAL | 🔴 | Security vulnerabilities, data loss risks | Block merge |
 | HIGH | 🟠 | Architectural violations, major bugs | Must fix |
 | MEDIUM | 🟡 | Code smells, missing tests, naming issues | Should fix |

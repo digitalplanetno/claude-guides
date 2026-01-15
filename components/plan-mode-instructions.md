@@ -22,7 +22,7 @@ Include this section in your CLAUDE.md.
 ### Thinking Levels
 
 | Keyword | Use For | Example |
-|---------|---------|---------|
+| --------- | --------- | --------- |
 | `think` | Simple tasks | "think about how to rename this variable" |
 | `think hard` | Medium complexity | "think hard about the best approach for this feature" |
 | `think harder` | Complex decisions | "think harder about the architecture for this system" |

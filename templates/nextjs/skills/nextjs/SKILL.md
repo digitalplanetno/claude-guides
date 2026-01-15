@@ -14,7 +14,7 @@ This skill provides deep Next.js 14+ expertise including App Router patterns, Se
 ### Decision Guide
 
 | Feature Needed | Use |
-|----------------|-----|
+| ---------------- | ----- |
 | Fetch data | Server |
 | Access DB directly | Server |
 | useState, useEffect | Client |

@@ -21,7 +21,7 @@ You are a Next.js expert with deep knowledge of App Router, Server Components, S
 **Decision Matrix:**
 
 | Need | Component Type |
-|------|---------------|
+| ------ | --------------- |
 | Fetch data | Server |
 | Access backend directly | Server |
 | Access browser APIs | Client |

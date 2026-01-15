@@ -21,7 +21,7 @@
 **Уровни размышления:**
 
 | Слово | Когда использовать |
-|-------|-------------------|
+| ------- | ------------------- |
 | `think` | Простые задачи, однофайловые изменения |
 | `think hard` | Средняя сложность, несколько файлов |
 | `think harder` | Архитектурные решения, новые фичи |
@@ -121,7 +121,7 @@ if (!session) return new Response('Unauthorized', { status: 401 });
 ## 🤖 Available Agents
 
 | Command | Purpose |
-|---------|---------|
+| --------- | --------- |
 | `/agent:code-reviewer` | Code review |
 | `/agent:test-writer` | TDD тесты |
 | `/agent:nextjs-expert` | Next.js экспертиза |
@@ -131,7 +131,7 @@ if (!session) return new Response('Unauthorized', { status: 401 });
 ## 🧠 Available Skills
 
 | Skill | Описание |
-|-------|----------|
+| ------- | ---------- |
 | Next.js Expert | App Router, Server Components, SSR/ISR, caching |
 | Shadcn UI Expert | Компоненты, cn() utility, формы (RHF + Zod), темы |
 | Tailwind CSS Expert | Class ordering, responsive, accessibility |
@@ -143,7 +143,7 @@ Skills активируются автоматически по контекст
 ## 📋 Available Audits
 
 | Trigger | Action |
-|---------|--------|
+| --------- | -------- |
 | `security audit` | `.claude/prompts/SECURITY_AUDIT.md` |
 | `performance audit` | `.claude/prompts/PERFORMANCE_AUDIT.md` |
 | `code review` | `.claude/prompts/CODE_REVIEW.md` |

@@ -19,7 +19,7 @@
 4. **Wait for approval** before writing code
 
 | Level | When |
-|-------|------|
+| ------- | ------ |
 | `think` | Simple changes |
 | `think hard` | Medium complexity |
 | `think harder` | Architecture decisions |
@@ -81,7 +81,7 @@ $this->authorize('update', $site);
 ## 🤖 Agents
 
 | Command | Purpose |
-|---------|---------|
+| --------- | --------- |
 | `/agent:code-reviewer` | Code review |
 | `/agent:test-writer` | TDD tests |
 | `/agent:laravel-expert` | Laravel help |

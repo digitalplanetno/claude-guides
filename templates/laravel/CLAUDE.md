@@ -20,7 +20,7 @@
 **Уровни размышления:**
 
 | Слово | Когда использовать |
-|-------|-------------------|
+| ------- | ------------------- |
 | `think` | Простые задачи |
 | `think hard` | Средняя сложность |
 | `think harder` | Архитектурные решения |
@@ -103,7 +103,7 @@ src/
 ## 🤖 Available Agents
 
 | Command | Agent | Purpose |
-|---------|-------|---------|
+| --------- | ------- | --------- |
 | `/agent:code-reviewer` | Code Reviewer | Глубокий code review |
 | `/agent:test-writer` | Test Writer | TDD-style тесты |
 | `/agent:planner` | Planner | Планирование задач |
@@ -113,7 +113,7 @@ src/
 ## 📋 Available Audits
 
 | Trigger | Action |
-|---------|--------|
+| --------- | -------- |
 | `security audit` | Run `.claude/prompts/SECURITY_AUDIT.md` |
 | `performance audit` | Run `.claude/prompts/PERFORMANCE_AUDIT.md` |
 | `code review` | Run `.claude/prompts/CODE_REVIEW.md` |

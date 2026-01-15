@@ -9,7 +9,7 @@
 ## 0. QUICK CHECK (5 минут)
 
 | # | Check | Command | Expected |
-|---|-------|---------|----------|
+| --- | ------- | --------- | ---------- |
 | 1 | PHP Syntax | `php artisan --version` | No errors |
 | 2 | Pint | `./vendor/bin/pint --test` | No changes |
 | 3 | PHPStan | `./vendor/bin/phpstan analyse` | Level passed |
@@ -81,7 +81,7 @@ echo "Ready to deploy!"
 ## 0.3 DEPLOY TYPES
 
 | Тип | Когда | Чеклист |
-|-----|-------|---------|
+| ----- | ------- | --------- |
 | Hotfix | Критичный баг | Quick Check только |
 | Minor | Мелкие изменения | Quick Check + секция 1 |
 | Feature | Новая функциональность | Секции 0-6 |
@@ -445,7 +445,7 @@ echo "Rollback completed!"
 **НЕ блокируй деплой из-за:**
 
 | Кажется блокером | Почему не блокер |
-|------------------|------------------|
+| ------------------ | ------------------ |
 | "PHPStan warnings" | Если код работает — OK |
 | "Deprecated package" | Если работает — обнови позже |
 | "Нет тестов" | Если функционал работает — OK |

@@ -9,7 +9,7 @@
 ## 0. QUICK CHECK (5 минут)
 
 | # | Check | Command | Expected |
-|---|-------|---------|----------|
+| --- | ------- | --------- | ---------- |
 | 1 | Build | `npm run build` | Success |
 | 2 | Lint | `npm run lint` | No errors |
 | 3 | Tests | `npm test` | Pass |
@@ -87,7 +87,7 @@ echo "Ready to deploy!"
 ## 0.3 DEPLOY TYPES
 
 | Тип | Когда | Чеклист |
-|-----|-------|---------|
+| ----- | ------- | --------- |
 | Hotfix | Критичный баг | Quick Check только |
 | Minor | Мелкие изменения | Quick Check + секция 1 |
 | Feature | Новая функциональность | Секции 0-6 |
@@ -461,7 +461,7 @@ mysql -u USER -p DATABASE < backup_YYYYMMDD.sql
 **НЕ блокируй деплой из-за:**
 
 | Кажется блокером | Почему не блокер |
-|------------------|------------------|
+| ------------------ | ------------------ |
 | "ESLint warnings" | Если build проходит — OK |
 | "Deprecated package" | Если работает — обнови позже |
 | "console.log в коде" | Не критично |

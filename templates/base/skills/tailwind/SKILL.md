@@ -20,7 +20,7 @@ This skill provides Tailwind CSS expertise including utility-first patterns, con
 ### When to Use Custom CSS
 
 | Scenario | Approach |
-|----------|----------|
+| ---------- | ---------- |
 | One-off styles | Utility classes |
 | Repeated pattern (3+ times) | Extract component |
 | Complex animations | `@keyframes` in CSS |
@@ -61,7 +61,7 @@ Sort classes in logical groups (Box Model order):
 ### Quick Reference
 
 | Group | Examples |
-|-------|----------|
+| ------- | ---------- |
 | Layout | `flex`, `grid`, `block`, `hidden`, `absolute`, `relative` |
 | Spacing | `m-*`, `p-*`, `gap-*`, `space-*` |
 | Sizing | `w-*`, `h-*`, `size-*`, `min-*`, `max-*` |
@@ -139,7 +139,7 @@ Sort classes in logical groups (Box Model order):
 ### Breakpoints
 
 | Prefix | Min-width | Target |
-|--------|-----------|--------|
+| -------- | ----------- | -------- |
 | (none) | 0px | Mobile (default) |
 | `sm:` | 640px | Large phones, tablets |
 | `md:` | 768px | Tablets, small laptops |
@@ -316,7 +316,7 @@ export function Button({ children }) {
 ### Common Issues
 
 | Problem | Solution |
-|---------|----------|
+| --------- | ---------- |
 | Flex item not shrinking | Add `min-w-0` or `overflow-hidden` |
 | Grid overflow | Check `grid-cols-*` matches children count |
 | Text not wrapping | Add `break-words` or `overflow-wrap` |
