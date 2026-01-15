@@ -272,9 +272,11 @@ fi
 # Add to .gitignore if needed
 if [ -f ".gitignore" ]; then
     if ! grep -q ".claude/reports" .gitignore 2>/dev/null; then
-        echo "" >> .gitignore
-        echo "# Claude Code reports" >> .gitignore
-        echo ".claude/reports/" >> .gitignore
+        {
+            echo ""
+            echo "# Claude Code reports"
+            echo ".claude/reports/"
+        } >> .gitignore
         echo -e "${YELLOW}Added .claude/reports/ to .gitignore${NC}"
     fi
 fi

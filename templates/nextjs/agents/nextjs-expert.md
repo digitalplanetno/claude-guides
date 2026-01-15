@@ -19,6 +19,7 @@ You are a Next.js expert with deep knowledge of App Router, Server Components, S
 ### 1. Server vs Client Components
 
 **Decision Matrix:**
+
 | Need | Component Type |
 |------|---------------|
 | Fetch data | Server |
@@ -29,6 +30,7 @@ You are a Next.js expert with deep knowledge of App Router, Server Components, S
 | Static content | Server |
 
 **Pattern: Server wrapper, Client interactivity:**
+
 ```tsx
 // app/sites/page.tsx (Server)
 export default async function SitesPage() {
@@ -44,20 +46,22 @@ export function SiteList({ sites }: { sites: Site[] }) {
   const [filter, setFilter] = useState('');
   // Interactive logic here
 }
-```
+```text
 
 ### 2. Data Fetching Patterns
 
 **Server Component (Recommended):**
+
 ```tsx
 // Direct database access - no API needed
 export default async function DashboardPage() {
   const stats = await prisma.stats.findFirst();
   return <Dashboard stats={stats} />;
 }
-```
+```text
 
 **Server Actions:**
+
 ```typescript
 // lib/actions/site-actions.ts
 'use server';
@@ -86,9 +90,10 @@ export async function createSite(formData: FormData) {
   revalidatePath('/sites');
   redirect('/sites');
 }
-```
+```text
 
 **Usage in form:**
+
 ```tsx
 // components/create-site-form.tsx
 'use client';
@@ -110,19 +115,21 @@ export function CreateSiteForm() {
     </form>
   );
 }
-```
+```text
 
 ### 3. Caching & Revalidation
 
 **Static Generation (Default):**
+
 ```tsx
 // Cached at build time
 export default async function AboutPage() {
   return <div>About Us</div>;
 }
-```
+```text
 
 **ISR (Incremental Static Regeneration):**
+
 ```tsx
 // Revalidate every hour
 export const revalidate = 3600;
@@ -131,9 +138,10 @@ export default async function ProductsPage() {
   const products = await getProducts();
   return <ProductList products={products} />;
 }
-```
+```text
 
 **Dynamic (No Cache):**
+
 ```tsx
 export const dynamic = 'force-dynamic';
 
@@ -141,9 +149,10 @@ export default async function DashboardPage() {
   const data = await getRealTimeData();
   return <Dashboard data={data} />;
 }
-```
+```text
 
 **On-Demand Revalidation:**
+
 ```typescript
 // In Server Action or API Route
 import { revalidatePath, revalidateTag } from 'next/cache';
@@ -154,7 +163,7 @@ revalidatePath('/products/[id]', 'page');
 
 // Revalidate by tag
 revalidateTag('products');
-```
+```text
 
 ### 4. Route Handlers (API Routes)
 
@@ -192,11 +201,12 @@ export async function POST(request: NextRequest) {
   const site = await prisma.site.create({ data: body });
   return NextResponse.json(site, { status: 201 });
 }
-```
+```text
 
 ### 5. Performance Optimization
 
 **Dynamic Imports:**
+
 ```tsx
 import dynamic from 'next/dynamic';
 
@@ -204,9 +214,10 @@ const HeavyChart = dynamic(() => import('@/components/chart'), {
   loading: () => <ChartSkeleton />,
   ssr: false, // Client-only
 });
-```
+```text
 
 **Image Optimization:**
+
 ```tsx
 import Image from 'next/image';
 
@@ -222,9 +233,10 @@ export function Avatar({ user }) {
     />
   );
 }
-```
+```text
 
 **Suspense Boundaries:**
+
 ```tsx
 // app/dashboard/page.tsx
 import { Suspense } from 'react';
@@ -242,11 +254,12 @@ export default function DashboardPage() {
     </div>
   );
 }
-```
+```text
 
 ### 6. Error Handling
 
 **Error Boundary:**
+
 ```tsx
 // app/dashboard/error.tsx
 'use client';
@@ -265,9 +278,10 @@ export default function Error({
     </div>
   );
 }
-```
+```text
 
 **Not Found:**
+
 ```tsx
 // app/sites/[id]/page.tsx
 import { notFound } from 'next/navigation';
@@ -279,14 +293,15 @@ export default async function SitePage({ params }: { params: { id: string } }) {
   
   return <SiteDetails site={site} />;
 }
-```
+```text
 
 ---
 
 ## Quick Reference
 
 ### File Conventions
-```
+
+```text
 app/
 ├── page.tsx          # Route UI
 ├── layout.tsx        # Shared layout
@@ -295,12 +310,13 @@ app/
 ├── not-found.tsx     # 404 UI
 ├── route.ts          # API endpoint
 └── [slug]/           # Dynamic route
-```
+```text
 
 ### Route Segment Config
+
 ```typescript
 export const dynamic = 'force-dynamic' | 'force-static';
 export const revalidate = 3600; // seconds
 export const fetchCache = 'force-cache' | 'force-no-store';
 export const runtime = 'nodejs' | 'edge';
-```
+```text

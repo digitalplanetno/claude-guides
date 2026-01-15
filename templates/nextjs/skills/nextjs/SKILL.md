@@ -12,6 +12,7 @@ This skill provides deep Next.js 14+ expertise including App Router patterns, Se
 ## 🎯 Server vs Client Components
 
 ### Decision Guide
+
 | Feature Needed | Use |
 |----------------|-----|
 | Fetch data | Server |
@@ -22,6 +23,7 @@ This skill provides deep Next.js 14+ expertise including App Router patterns, Se
 | Static content | Server |
 
 ### Pattern: Composition
+
 ```tsx
 // page.tsx (Server) - Fetches data
 export default async function Page() {
@@ -35,22 +37,24 @@ export function InteractiveList({ initialData }) {
   const [items, setItems] = useState(initialData);
   // ...
 }
-```
+```text
 
 ---
 
 ## 📡 Data Fetching
 
 ### Server Components (Preferred)
+
 ```tsx
 // Direct DB access - no API needed
 export default async function DashboardPage() {
   const stats = await prisma.stats.findFirst();
   return <Dashboard stats={stats} />;
 }
-```
+```text
 
 ### Server Actions
+
 ```typescript
 // lib/actions.ts
 'use server';
@@ -72,9 +76,10 @@ export async function createPost(formData: FormData) {
   revalidatePath('/posts');
   redirect('/posts');
 }
-```
+```text
 
 ### SWR for Client-Side
+
 ```tsx
 'use client';
 import useSWR from 'swr';
@@ -88,13 +93,14 @@ export function LiveStats() {
   if (error) return <Error />;
   return <Stats data={data} />;
 }
-```
+```text
 
 ---
 
 ## 🗄️ Caching Strategies
 
 ### Route Segment Config
+
 ```typescript
 // Static (build time)
 export const dynamic = 'force-static';
@@ -107,9 +113,10 @@ export const revalidate = 3600; // seconds
 
 // No store
 export const fetchCache = 'force-no-store';
-```
+```text
 
 ### On-Demand Revalidation
+
 ```typescript
 // In Server Action
 import { revalidatePath, revalidateTag } from 'next/cache';
@@ -123,9 +130,10 @@ revalidateTag('products');
 
 // Tag in fetch
 fetch(url, { next: { tags: ['products'] } });
-```
+```text
 
 ### Cache Hierarchy
+
 1. **Request Memoization** — Same request in render pass
 2. **Data Cache** — fetch() results cached
 3. **Full Route Cache** — Static/ISR pages
@@ -136,6 +144,7 @@ fetch(url, { next: { tags: ['products'] } });
 ## ⚡ Performance
 
 ### Dynamic Imports
+
 ```tsx
 import dynamic from 'next/dynamic';
 
@@ -149,9 +158,10 @@ const HeavyEditor = dynamic(() => import('./editor'), {
 const Chart = dynamic(
   () => import('./charts').then(mod => mod.LineChart)
 );
-```
+```text
 
 ### Image Optimization
+
 ```tsx
 import Image from 'next/image';
 
@@ -164,9 +174,10 @@ import Image from 'next/image';
   placeholder="blur"
   blurDataURL={blurData}
 />
-```
+```text
 
 ### Suspense Streaming
+
 ```tsx
 import { Suspense } from 'react';
 
@@ -183,9 +194,10 @@ export default function Page() {
     </>
   );
 }
-```
+```text
 
 ### Parallel Data Fetching
+
 ```tsx
 export default async function Page() {
   // ❌ Sequential
@@ -198,13 +210,14 @@ export default async function Page() {
     getComments(),
   ]);
 }
-```
+```text
 
 ---
 
 ## 🔐 Security
 
 ### Environment Variables
+
 ```bash
 # Server-only (default)
 DATABASE_URL=...
@@ -212,9 +225,10 @@ API_SECRET=...
 
 # Exposed to browser
 NEXT_PUBLIC_APP_URL=...
-```
+```text
 
 ### API Route Auth
+
 ```typescript
 // app/api/posts/route.ts
 export async function POST(request: Request) {
@@ -224,9 +238,10 @@ export async function POST(request: Request) {
   }
   // ...
 }
-```
+```text
 
 ### Input Validation
+
 ```typescript
 import { z } from 'zod';
 
@@ -242,13 +257,14 @@ export async function createPost(formData: FormData) {
   });
   // ...
 }
-```
+```text
 
 ---
 
 ## 🧪 Testing
 
 ### Component Testing (Vitest)
+
 ```typescript
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
@@ -259,9 +275,10 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toHaveTextContent('Click me');
   });
 });
-```
+```text
 
 ### Server Action Testing
+
 ```typescript
 import { createPost } from '@/lib/actions';
 import { vi } from 'vitest';
@@ -278,13 +295,13 @@ it('creates post', async () => {
   
   expect(prisma.post.create).toHaveBeenCalled();
 });
-```
+```text
 
 ---
 
 ## 📁 File Conventions
 
-```
+```text
 app/
 ├── page.tsx          # Route UI
 ├── layout.tsx        # Shared layout
@@ -296,4 +313,4 @@ app/
 ├── default.tsx       # Parallel route fallback
 └── [slug]/           # Dynamic segment
     └── page.tsx
-```
+```text

@@ -1,6 +1,7 @@
 # Security Audit — Laravel Template
 
 ## Цель
+
 Комплексный аудит безопасности Laravel приложения. Действуй как Senior Security Engineer.
 
 ---
@@ -17,7 +18,7 @@
 | 4 | Raw SQL injection | `grep -rn 'DB::raw\|whereRaw' app/ --include="*.php"` | Проверить биндинги |
 | 5 | composer audit | `composer audit` | No vulnerabilities |
 
-**Если все 5 = OK → Базовый уровень безопасности OK**
+Если все 5 = OK → Базовый уровень безопасности OK.
 
 ---
 
@@ -66,12 +67,14 @@ echo "Done!"
 **Заполни перед аудитом:**
 
 **Что уже реализовано:**
+
 - [ ] Authentication mechanism: [Laravel Sanctum / Breeze / Jetstream]
 - [ ] Authorization: [Policies / Gates / Middleware]
 - [ ] Input validation: [FormRequest classes]
 - [ ] CSRF protection: [автоматически в web routes]
 
 **Публичные endpoints (by design):**
+
 - `/api/health` — health check
 - `/webhooks/*` — webhooks (проверь signature!)
 

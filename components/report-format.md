@@ -70,7 +70,7 @@ Auditor: Claude (Senior Security Engineer)
 
 ### Long-term (1 month)
 - [ ] [Улучшения]
-```
+```text
 
 ---
 
@@ -123,7 +123,7 @@ Scope: [какие файлы/коммиты проверены]
 
 // Стало
 [новый код]
-```
+```text
 
 ---
 
@@ -132,7 +132,8 @@ Scope: [какие файлы/коммиты проверены]
 - [ ] Исправить критические проблемы
 - [ ] Обновить документацию
 - [ ] Запустить тесты
-```
+
+```text
 
 ---
 
@@ -201,4 +202,4 @@ Deployed by: [кто]
 - [ ] Monitor error rate for 24h
 - [ ] Check queue processing
 - [ ] Notify stakeholders
-```
+```text

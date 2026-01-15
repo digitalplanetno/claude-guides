@@ -1,17 +1,19 @@
 # /fix — Fix Found Issue
 
 ## Purpose
+
 Fix a specific issue found during audit or code review.
 
 ---
 
 ## Usage
 
-```
+```text
 /fix <issue-reference>
-```
+```text
 
 **Examples:**
+
 - `/fix SQL injection in UserController:45`
 - `/fix N+1 query in ProjectService`
 - `/fix missing auth check on /api/admin`
@@ -21,21 +23,25 @@ Fix a specific issue found during audit or code review.
 ## Workflow
 
 ### 1. Understand the Issue
+
 - What is the vulnerability/problem?
 - Where exactly is it? (file:line)
 - What's the impact?
 
 ### 2. Analyze Context
+
 - Read surrounding code
 - Understand the intent
 - Check for related code
 
 ### 3. Implement Fix
+
 - Minimal change principle
 - Don't break existing functionality
 - Follow project patterns
 
 ### 4. Verify Fix
+
 - Does it solve the problem?
 - Does it introduce new issues?
 - Are there similar issues elsewhere?
@@ -52,7 +58,7 @@ DB::select("SELECT * FROM users WHERE id = " . $request->id);
 
 // After (safe)
 DB::select("SELECT * FROM users WHERE id = ?", [$request->id]);
-```
+```text
 
 ### XSS
 
@@ -63,7 +69,7 @@ DB::select("SELECT * FROM users WHERE id = ?", [$request->id]);
 // After (safe)
 import DOMPurify from 'dompurify';
 <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(userInput)}} />
-```
+```text
 
 ### Missing Auth
 
@@ -85,7 +91,7 @@ export async function POST(request: Request) {
   const data = await request.json();
   // ...
 }
-```
+```text
 
 ### N+1 Query
 
@@ -101,7 +107,7 @@ $users = User::with('posts')->get();
 foreach ($users as $user) {
     echo $user->posts->count(); // 0 additional queries
 }
-```
+```text
 
 ---
 
@@ -128,7 +134,7 @@ foreach ($users as $user) {
 
 ### Related
 - Similar issues to check: [list if any]
-```
+```text
 
 ---
 

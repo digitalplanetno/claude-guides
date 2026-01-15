@@ -1,6 +1,7 @@
 # Security Audit — Base Template
 
 ## Цель
+
 Комплексный аудит безопасности веб-приложения. Действуй как Senior Security Engineer / Penetration Tester.
 
 ---
@@ -17,7 +18,7 @@
 | 4 | Dependency audit | Нет critical уязвимостей |
 | 5 | Auth на sensitive endpoints | Все защищено |
 
-**Если все 5 = ✅ → Базовый уровень безопасности OK**
+Если все 5 = ✅ → Базовый уровень безопасности OK.
 
 ---
 
@@ -26,16 +27,19 @@
 **Заполни перед аудитом:**
 
 **Что уже реализовано:**
+
 - [ ] Authentication mechanism: [какой]
 - [ ] Authorization: [policies/middleware/etc]
 - [ ] Input validation: [где]
 - [ ] CSRF protection: [как]
 
 **Публичные endpoints (by design):**
+
 - `/api/health` — health check
 - `/webhooks/*` — webhooks (проверь signature!)
 
 **Известные особенности:**
+
 - [Project-specific notes]
 
 ---
@@ -55,16 +59,19 @@
 ## 1. INJECTION ATTACKS
 
 ### 1.1 SQL Injection
+
 - [ ] Все запросы используют параметризацию
 - [ ] Нет конкатенации user input в SQL
 - [ ] Dynamic column/table names через whitelist
 
 ### 1.2 Command Injection
+
 - [ ] Нет прямого выполнения user commands
 - [ ] Whitelist разрешённых команд
 - [ ] Аргументы санитизируются
 
 ### 1.3 XSS (Cross-Site Scripting)
+
 - [ ] User input экранируется при выводе
 - [ ] Нет unsafe HTML rendering без санитизации
 - [ ] CSP headers настроены
@@ -74,16 +81,19 @@
 ## 2. AUTHENTICATION
 
 ### 2.1 Password Security
+
 - [ ] Пароли хэшируются (bcrypt/argon2)
 - [ ] Минимум 10 rounds для bcrypt
 - [ ] Нет plain text паролей
 
 ### 2.2 Session Security
+
 - [ ] Secure cookies в production
 - [ ] HttpOnly cookies
 - [ ] SameSite policy
 
 ### 2.3 Rate Limiting
+
 - [ ] Login endpoint имеет rate limiting
 - [ ] Password reset имеет rate limiting
 - [ ] API endpoints имеют rate limiting
@@ -93,11 +103,13 @@
 ## 3. AUTHORIZATION
 
 ### 3.1 Access Control
+
 - [ ] Все protected routes требуют auth
 - [ ] Проверка ownership на update/delete
 - [ ] Нет IDOR (Insecure Direct Object Reference)
 
 ### 3.2 Role-Based Access
+
 - [ ] Roles проверяются на server-side
 - [ ] Admin routes дополнительно защищены
 - [ ] Нет privilege escalation
@@ -107,16 +119,19 @@
 ## 4. DATA PROTECTION
 
 ### 4.1 Sensitive Data
+
 - [ ] Secrets только в env, не в коде
 - [ ] Debug mode отключен в production
 - [ ] Пароли/ключи не логируются
 
 ### 4.2 Error Handling
+
 - [ ] Пользователь не видит stack traces
 - [ ] Пользователь не видит SQL ошибки
 - [ ] Детальные ошибки только в логах
 
 ### 4.3 HTTPS
+
 - [ ] HTTPS обязателен в production
 - [ ] HTTP редиректит на HTTPS
 - [ ] HSTS header
@@ -126,11 +141,13 @@
 ## 5. FILE HANDLING
 
 ### 5.1 File Upload
+
 - [ ] File type валидируется (не только extension)
 - [ ] File size ограничен
 - [ ] Filename генерируется (не user-provided)
 
 ### 5.2 Path Traversal
+
 - [ ] Нет `../` в user paths
 - [ ] Paths санитизируются
 - [ ] Проверка что path в разрешённой директории
@@ -140,14 +157,17 @@
 ## 6. API SECURITY
 
 ### 6.1 CORS
+
 - [ ] `allowed_origins` — конкретные домены, не `*`
 - [ ] Credentials настроены правильно
 
 ### 6.2 Rate Limiting
+
 - [ ] Все API endpoints имеют rate limiting
 - [ ] Rate limit по user, не только по IP
 
 ### 6.3 Response Filtering
+
 - [ ] Sensitive поля не возвращаются
 - [ ] Используются API Resources/DTOs
 
@@ -156,6 +176,7 @@
 ## 7. DEPENDENCIES
 
 ### 7.1 Audit
+
 - [ ] Package manager audit без critical/high
 - [ ] Dependencies обновлены
 

@@ -1,6 +1,7 @@
 # Performance Audit — Laravel Template
 
 ## Цель
+
 Комплексный аудит производительности Laravel приложения. Действуй как Senior Performance Engineer.
 
 ---
@@ -57,12 +58,14 @@ echo "Done!"
 ## 0.2 PROJECT SPECIFICS — [Project Name]
 
 **Что уже оптимизировано:**
+
 - [ ] MySQL connection pooling (Laravel default)
 - [ ] Redis для очередей и кэша
 - [ ] Supervisor для queue workers
 - [ ] Vite для сборки фронтенда
 
 **Команды для анализа:**
+
 ```bash
 # Bundle analysis
 npx vite-bundle-visualizer
@@ -107,6 +110,7 @@ $sites = Site::withCount('labels')->get();
 ### 1.2 Missing Indexes
 
 Проверь индексы на:
+
 - [ ] **Foreign keys** — все `*_id` поля
 - [ ] **WHERE поля** — `status`, `type`, `is_active`, `created_at`
 - [ ] **ORDER BY поля** — `created_at`, `updated_at`, `sort_order`

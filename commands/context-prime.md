@@ -1,17 +1,19 @@
 # /context-prime — Load Project Context
 
 ## Purpose
+
 Prime Claude with essential project context before starting work.
 
 ---
 
 ## Usage
 
-```
+```text
 /context-prime [area]
-```
+```text
 
 **Examples:**
+
 - `/context-prime` — Full project context
 - `/context-prime auth` — Authentication area
 - `/context-prime api` — API endpoints
@@ -22,6 +24,7 @@ Prime Claude with essential project context before starting work.
 ## What Gets Loaded
 
 ### Full Prime (default)
+
 1. `CLAUDE.md` — Project instructions
 2. `README.md` — Project overview
 3. `.env.example` — Environment structure
@@ -30,6 +33,7 @@ Prime Claude with essential project context before starting work.
 6. Key configuration files
 
 ### Area-Specific
+
 | Area | Files Loaded |
 |------|-------------|
 | `auth` | Auth controllers, middleware, policies, guards |
@@ -43,14 +47,16 @@ Prime Claude with essential project context before starting work.
 ## Process
 
 ### Step 1: Read Core Files
+
 ```bash
 # Always read first
 cat CLAUDE.md
 cat README.md
 cat .env.example
-```
+```text
 
 ### Step 2: Understand Structure
+
 ```bash
 # Laravel
 php artisan route:list --compact
@@ -59,14 +65,15 @@ cat database/schema.sql  # if exists
 # Next.js
 ls -la app/
 cat prisma/schema.prisma
-```
+```text
 
 ### Step 3: Load Area Context
+
 ```bash
 # Based on requested area
 find app/Http/Controllers -name "*.php" | head -20
 find resources/js/Pages -name "*.vue" | head -20
-```
+```text
 
 ---
 
@@ -104,7 +111,7 @@ I now understand:
 - Coding conventions ✅
 
 What would you like me to help with?
-```
+```text
 
 ---
 

@@ -16,7 +16,7 @@ curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/s
 
 # Dry-run (посмотреть что будет создано)
 curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/init-claude.sh | bash -s -- --dry-run
-```
+```text
 
 ## ✨ Что нового в v2.0
 
@@ -28,7 +28,7 @@ curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/s
 
 ## 📁 Структура
 
-```
+```text
 claude-guides/
 ├── templates/
 │   ├── base/                    # Framework-agnostic шаблоны
@@ -74,7 +74,7 @@ claude-guides/
 │   └── ...
 ├── examples/                    # Готовые конфигурации
 └── scripts/                     # Скрипты инициализации
-```
+```text
 
 ## 🤖 Subagents
 
@@ -88,10 +88,11 @@ Subagents — специализированные агенты для деле�
 | Security Auditor | `agents/security-auditor.md` | Фокус на безопасности |
 
 **Использование:**
-```
+
+```text
 /agent:code-reviewer app/Http/Controllers/
 /agent:test-writer UserService
-```
+```text
 
 ## 🧠 Skills
 
@@ -126,9 +127,10 @@ Skills автоматически активируются когда конте
     ]
   }
 }
-```
+```text
 
 **Включённые hooks:**
+
 - ✅ Auto-format PHP (Pint) после редактирования
 - ✅ Auto-format JS/Vue (Prettier) после редактирования
 - ✅ Аудит bash команд в лог
@@ -175,22 +177,24 @@ Skills автоматически активируются когда конте
 
 ### Пример
 
-```
+```text
 "Проанализируй задачу добавления OAuth. 
 Think harder о edge cases и безопасности.
 НЕ ПИШИ КОД — только план в .claude/scratchpad/oauth-plan.md"
-```
+```text
 
 ## 📊 Аудиты
 
 ### Framework-специфичные
 
 **Laravel:**
+
 - SQL Injection, Mass Assignment, CSRF
 - Eloquent N+1, Query optimization
 - Services, FormRequests, Policies
 
 **Next.js:**
+
 - API Routes security, SSRF protection
 - Bundle size, SSR/CSR optimization
 - Server Components, Edge functions
@@ -207,7 +211,7 @@ grep -rn "->get().*foreach" app/
 
 # Code Quality
 grep -rn "dd(\|dump(\|console.log" app/ resources/
-```
+```text
 
 ## 🔧 Использование
 
@@ -219,7 +223,7 @@ cp -r templates/laravel/* your-project/.claude/
 
 # Для Next.js проекта
 cp -r templates/nextjs/* your-project/.claude/
-```
+```text
 
 ### 2. Автоматическая инициализация
 
@@ -230,13 +234,13 @@ cd your-project
 
 # С GitHub
 curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/init-claude.sh | bash
-```
+```text
 
 ### 3. Обновление
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/scripts/update-claude.sh | bash
-```
+```text
 
 ## 📚 Триггеры в CLAUDE.md
 
@@ -259,7 +263,7 @@ curl -sSL https://raw.githubusercontent.com/digitalplanetno/claude-guides/main/s
 | `/agent:code-reviewer` | Code review с чеклистом |
 | `/agent:test-writer` | Написание тестов (TDD) |
 | `/agent:planner` | Планирование задач |
-```
+```text
 
 ## 🏗️ Поддерживаемые фреймворки
 

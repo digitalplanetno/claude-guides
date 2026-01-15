@@ -37,12 +37,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check required sections
+      - name: Check required sections in audit files
         run: |
-          echo "Checking templates for required sections..."
+          echo "Checking audit files for required sections..."
           ERRORS=0
 
-          for f in templates/**/*.md; do
+          for f in templates/**/SECURITY_AUDIT.md templates/**/PERFORMANCE_AUDIT.md templates/**/CODE_REVIEW.md templates/**/DEPLOY_CHECKLIST.md; do
+            [ -f "$f" ] || continue
             if ! grep -q "QUICK CHECK" "$f"; then
               echo "❌ Missing QUICK CHECK: $f"
               ERRORS=$((ERRORS + 1))
@@ -61,7 +62,7 @@ jobs:
             echo "Found $ERRORS errors"
             exit 1
           fi
-          echo "✅ All templates valid"
+          echo "✅ All audit templates valid"
 
   test-init-script:
     name: Test Init Script

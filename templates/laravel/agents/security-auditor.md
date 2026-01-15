@@ -22,51 +22,60 @@ allowed-tools:
 ## 🔴 OWASP Top 10 Checklist
 
 ### A01: Broken Access Control
+
 ```bash
 # Quick check
 grep -rn "->get()\|->first()\|->find(" app/Http/Controllers/ | grep -v "authorize\|policy\|can("
 grep -rn "Route::" routes/ | grep -v "middleware"
-```
+```text
+
 - [ ] Missing authorization checks in controllers
 - [ ] Direct object references without ownership validation
 - [ ] Missing middleware on sensitive routes
 - [ ] Privilege escalation possibilities
 
 ### A02: Cryptographic Failures
+
 ```bash
 # Quick check
 grep -rn "md5(\|sha1(\|base64_encode(" app/
 grep -rn "password.*=.*['\"]" app/ config/
-```
+```text
+
 - [ ] Weak hashing algorithms (MD5, SHA1 for passwords)
 - [ ] Hardcoded secrets in code
 - [ ] Sensitive data in logs
 - [ ] Missing encryption for sensitive data at rest
 
 ### A03: Injection
+
 ```bash
 # Quick check
 grep -rn "DB::raw\|whereRaw\|selectRaw\|orderByRaw" app/
 grep -rn "exec(\|system(\|shell_exec(\|passthru(" app/
 grep -rn "eval(\|create_function(" app/
-```
+```text
+
 - [ ] SQL Injection via raw queries
 - [ ] Command injection
 - [ ] Code injection (eval)
 - [ ] LDAP injection
 
 ### A04: Insecure Design
+
 - [ ] Missing rate limiting on sensitive endpoints
 - [ ] No account lockout mechanism
 - [ ] Missing CAPTCHA on public forms
 - [ ] Predictable resource identifiers
 
 ### A05: Security Misconfiguration
+
 ```bash
 # Quick check
 grep -rn "APP_DEBUG=true" .env*
 grep -rn "CORS_ALLOWED_ORIGINS.*\*" config/
-```
+```text
+
 - [ ] Debug mode enabled in production config
 - [ ] Default credentials
 - [ ] Overly permissive CORS
@@ -74,47 +83,56 @@ grep -rn "CORS_ALLOWED_ORIGINS.*\*" config/
 - [ ] Exposed .env or config files
 
 ### A06: Vulnerable Components
+
 ```bash
 # Quick check
 composer audit 2>/dev/null || echo "Run: composer audit"
 npm audit 2>/dev/null || echo "Run: npm audit"
-```
+```text
+
 - [ ] Outdated dependencies with known vulnerabilities
 - [ ] Unmaintained packages
 - [ ] Dependencies with security advisories
 
 ### A07: Authentication Failures
+
 ```bash
 # Quick check
 grep -rn "throttle" routes/
 grep -rn "password.*min:" app/Http/Requests/
-```
+```text
+
 - [ ] Missing brute force protection
 - [ ] Weak password requirements
 - [ ] Session fixation vulnerabilities
 - [ ] Missing MFA on sensitive operations
 
 ### A08: Software and Data Integrity
+
 - [ ] Missing integrity checks on file uploads
 - [ ] Deserialization of untrusted data
 - [ ] Missing CI/CD pipeline security
 - [ ] Unsigned software updates
 
 ### A09: Security Logging Failures
+
 ```bash
 # Quick check
 grep -rn "Log::\|logger(" app/Http/Controllers/ | head -20
-```
+```text
+
 - [ ] Missing logging for security events
 - [ ] Sensitive data in logs
 - [ ] No alerting mechanism
 - [ ] Logs not protected from tampering
 
 ### A10: Server-Side Request Forgery (SSRF)
+
 ```bash
 # Quick check
 grep -rn "file_get_contents\|curl_exec\|Http::get\|fetch(" app/
-```
+```text
+
 - [ ] User-controlled URLs in server requests
 - [ ] Missing URL validation/whitelist
 - [ ] Internal network access possible
@@ -124,6 +142,7 @@ grep -rn "file_get_contents\|curl_exec\|Http::get\|fetch(" app/
 ## 🔍 Framework-Specific Checks
 
 ### Laravel
+
 ```bash
 # Mass Assignment
 grep -rn '\$guarded.*=.*\[\]' app/Models/
@@ -137,9 +156,10 @@ grep -rn "withoutMiddleware.*csrf\|@csrf" routes/ resources/
 
 # SQL Injection
 grep -rn "DB::raw\|whereRaw" app/ --include="*.php"
-```
+```text
 
 ### Next.js
+
 ```bash
 # API Security
 grep -rn "export.*GET\|export.*POST" app/api/ | grep -v "auth("
@@ -152,13 +172,14 @@ grep -rn "fetch\|axios" lib/ app/ | grep -v "localhost\|api\."
 
 # Environment
 grep -rn "NEXT_PUBLIC_.*KEY\|NEXT_PUBLIC_.*SECRET" .env*
-```
+```text
 
 ---
 
-## 🚫 Self-Check: НЕ РЕПОРТУЙ если...
+## 🚫 Self-Check: НЕ РЕПОРТУЙ если
 
 ### False Positives to Filter
+
 - [ ] `whereRaw` с константами или prepared statements
 - [ ] `$guarded = []` в моделях только для seeders
 - [ ] `{!! !!}` с уже санитизированным контентом (markdown, purified)
@@ -202,23 +223,26 @@ User input is directly concatenated into SQL query without sanitization.
 **Vulnerable Code:**
 ```php
 $users = DB::select("SELECT * FROM users WHERE name LIKE '%{$request->search}%'");
-```
+```text
 
 **Proof of Concept:**
-```
+
+```text
 GET /users?search=' OR '1'='1' --
-```
+```text
 
 **Remediation:**
+
 ```php
 $users = DB::select("SELECT * FROM users WHERE name LIKE ?", ["%{$request->search}%"]);
 // Or better:
 $users = User::where('name', 'like', "%{$request->search}%")->get();
-```
+```text
 
 **References:**
-- https://owasp.org/Top10/A03_2021-Injection/
-- https://laravel.com/docs/queries#raw-expressions
+
+- <https://owasp.org/Top10/A03_2021-Injection/>
+- <https://laravel.com/docs/queries#raw-expressions>
 
 ---
 
@@ -260,14 +284,17 @@ $users = User::where('name', 'like', "%{$request->search}%")->get();
 ## 🔧 Recommended Actions
 
 ### Immediate (24-48 hours)
+
 1. Fix SQL injection in UserController
 2. Add rate limiting to login endpoint
 
 ### Short-term (1-2 weeks)
+
 1. Implement CSP headers
 2. Add security logging
 
 ### Long-term (1-3 months)
+
 1. Security training for team
 2. Implement automated security scanning
 
@@ -283,8 +310,9 @@ grep -rn "DB::raw" app/
 grep -rn '\$guarded.*=.*\[\]' app/Models/
 
 # ...
-```
-```
+```text
+
+```text
 
 ---
 

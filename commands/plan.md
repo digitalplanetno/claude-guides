@@ -1,17 +1,19 @@
 # /plan — Create Implementation Plan
 
 ## Purpose
+
 Create a detailed implementation plan BEFORE writing any code.
 
 ---
 
 ## Usage
 
-```
+```text
 /plan <feature description>
-```
+```text
 
 **Examples:**
+
 - `/plan add OAuth login with Google`
 - `/plan refactor payment service to use Stripe SDK v3`
 - `/plan migrate database from MySQL to PostgreSQL`
@@ -34,26 +36,31 @@ Create a detailed implementation plan BEFORE writing any code.
 ## Process
 
 ### 1. Understand Requirements
+
 - What is the user asking for?
 - What are the acceptance criteria?
 - What questions need clarification?
 
 ### 2. Research Existing Code
+
 - What files are relevant?
 - What patterns does this project use?
 - Are there similar implementations to reference?
 
 ### 3. Design Solution
+
 - How will this fit into existing architecture?
 - What new files/components are needed?
 - What existing code needs modification?
 
 ### 4. Identify Risks
+
 - What could go wrong?
 - What are the edge cases?
 - What security considerations exist?
 
 ### 5. Break Into Phases
+
 - Small, testable chunks
 - Clear dependencies between phases
 - Complexity estimates
@@ -124,7 +131,7 @@ Create a detailed implementation plan BEFORE writing any code.
 ## Estimate
 - **Complexity:** Medium
 - **Time:** 2-4 hours
-```
+```text
 
 ---
 
@@ -137,6 +144,7 @@ Plans are saved to: `.claude/scratchpad/plan-[feature-slug].md`
 ## Rules
 
 ✅ DO:
+
 - Research existing code thoroughly
 - Ask clarifying questions if unclear
 - Identify ALL affected files
@@ -144,6 +152,7 @@ Plans are saved to: `.claude/scratchpad/plan-[feature-slug].md`
 - Estimate complexity realistically
 
 ❌ DON'T:
+
 - Write implementation code
 - Skip security considerations
 - Make assumptions — ask questions
@@ -154,6 +163,7 @@ Plans are saved to: `.claude/scratchpad/plan-[feature-slug].md`
 ## Next Steps
 
 After plan is approved:
+
 1. Create feature branch: `git checkout -b feature/[name]`
 2. Implement Phase 1
 3. Test Phase 1

@@ -27,10 +27,11 @@
 | `ultrathink` | Критические решения, безопасность |
 
 **Пример промпта:**
-```
+
+```text
 "Проанализируй задачу [описание]. Think harder о edge cases.
 НЕ ПИШИ КОД — только план."
-```
+```text
 
 ### Git Workflow
 
@@ -42,14 +43,14 @@
 
 ## 📁 Project Structure
 
-```
+```text
 [Customize for your project]
 src/
 ├── components/    # UI components
 ├── services/      # Business logic
 ├── models/        # Data models
 └── utils/         # Helper functions
-```
+```text
 
 ---
 
@@ -67,7 +68,7 @@ src/
 
 # Build
 [command]          # Build for production
-```
+```text
 
 ---
 
@@ -84,12 +85,14 @@ src/
 ## 🎨 Code Style
 
 ### Naming Conventions
+
 - **Files:** `kebab-case.ts` или `PascalCase.tsx` для компонентов
 - **Variables:** `camelCase`
 - **Constants:** `UPPER_SNAKE_CASE`
 - **Functions:** `camelCase`, глаголы (`createUser`, `validateInput`)
 
 ### Best Practices
+
 - Максимум 200 строк на файл
 - Одна ответственность на функцию/класс
 - Типизация везде где возможно
@@ -131,9 +134,11 @@ src/
 ## ⚠️ Project-Specific Notes
 
 ### Known Gotchas
+
 - [List project-specific issues]
 
 ### Public Endpoints (by design)
+
 - `/api/health` — Health check
 - `/webhooks/*` — External webhooks
 

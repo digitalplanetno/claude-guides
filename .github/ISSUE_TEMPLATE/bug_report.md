@@ -9,6 +9,7 @@ assignees: ''
 ## Template/Script
 
 Which file has the issue?
+
 - [ ] `templates/laravel/*`
 - [ ] `templates/nextjs/*`
 - [ ] `templates/base/*`

@@ -31,6 +31,7 @@ allowed-tools:
 ## 📋 Plan Structure
 
 ### 1. Requirements Analysis
+
 ```markdown
 ## 📋 Requirements
 
@@ -48,6 +49,7 @@ allowed-tools:
 ```
 
 ### 2. Scope Definition
+
 ```markdown
 ## 🎯 Scope
 
@@ -65,6 +67,7 @@ allowed-tools:
 ```
 
 ### 3. Technical Analysis
+
 ```markdown
 ## 🔍 Technical Analysis
 
@@ -86,6 +89,7 @@ allowed-tools:
 ```
 
 ### 4. Implementation Plan
+
 ```markdown
 ## 🚀 Implementation Plan
 
@@ -126,6 +130,7 @@ allowed-tools:
 ```
 
 ### 5. Risk Assessment
+
 ```markdown
 ## ⚠️ Risks & Mitigations
 
@@ -137,6 +142,7 @@ allowed-tools:
 ```
 
 ### 6. Testing Strategy
+
 ```markdown
 ## 🧪 Testing Strategy
 
@@ -227,17 +233,20 @@ allowed-tools:
 
 ## 💡 Best Practices
 
-### Для хороших estimates:
+### Для хороших estimates
+
 - **Small tasks:** 1-2 часа
 - **Medium tasks:** 3-4 часа
 - **Large tasks:** разбей на smaller
 
-### Для минимизации рисков:
+### Для минимизации рисков
+
 - Начинай с самого рискованного
 - Делай spike/prototype для неизвестных технологий
 - Планируй rollback strategy
 
-### Для лучшего планирования:
+### Для лучшего планирования
+
 - Используй `think harder` для сложных решений
 - Проверяй существующие паттерны в проекте
 - Консультируйся с документацией

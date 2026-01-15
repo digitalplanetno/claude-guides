@@ -1,17 +1,19 @@
 # /tdd — Test-Driven Development
 
 ## Purpose
+
 Implement a feature using strict TDD: write tests first, then minimal code to pass.
 
 ---
 
 ## Usage
 
-```
+```text
 /tdd <feature or function>
-```
+```text
 
 **Examples:**
+
 - `/tdd UserService::createUser`
 - `/tdd site creation endpoint`
 - `/tdd password reset flow`
@@ -20,7 +22,7 @@ Implement a feature using strict TDD: write tests first, then minimal code to pa
 
 ## TDD Workflow
 
-```
+```text
 ┌─────────────────────────────────────────────────┐
 │                                                 │
 │   1. RED      Write failing test                │
@@ -32,13 +34,14 @@ Implement a feature using strict TDD: write tests first, then minimal code to pa
 │   (repeat)                                      │
 │                                                 │
 └─────────────────────────────────────────────────┘
-```
+```text
 
 ---
 
 ## Phase 1: RED (Tests Only)
 
 ### What to Test
+
 | Category | Examples |
 |----------|----------|
 | Happy Path | Valid input → expected output |
@@ -48,6 +51,7 @@ Implement a feature using strict TDD: write tests first, then minimal code to pa
 | Security | Auth, validation bypass |
 
 ### Test Structure
+
 ```php
 describe('Feature', function () {
     describe('action', function () {
@@ -58,9 +62,10 @@ describe('Feature', function () {
         });
     });
 });
-```
+```text
 
 ### Rules
+
 - ✅ Write ALL tests before any implementation
 - ✅ Tests MUST fail initially
 - ✅ Tests should fail for the RIGHT reason
@@ -72,6 +77,7 @@ describe('Feature', function () {
 ## Phase 2: GREEN (Implementation)
 
 ### Process
+
 1. Pick ONE failing test
 2. Write MINIMUM code to pass it
 3. Run tests
@@ -79,6 +85,7 @@ describe('Feature', function () {
 5. Repeat until all tests pass
 
 ### Rules
+
 - ✅ Write simplest code that passes
 - ✅ Run tests after each change
 - ❌ DO NOT write more than needed
@@ -90,6 +97,7 @@ describe('Feature', function () {
 ## Phase 3: REFACTOR
 
 ### When All Tests Green
+
 1. Look for code smells
 2. Extract methods/classes
 3. Improve naming
@@ -97,6 +105,7 @@ describe('Feature', function () {
 5. Run tests after each change
 
 ### Rules
+
 - ✅ Keep tests green throughout
 - ✅ Small refactoring steps
 - ❌ DO NOT add new functionality
@@ -107,6 +116,7 @@ describe('Feature', function () {
 ## Output Format
 
 ### Phase 1 Output
+
 ```markdown
 ## TDD Phase 1: Tests for [Feature]
 
@@ -132,9 +142,10 @@ php artisan test --filter=UserServiceTest
 \`\`\`
 
 Expected: 4 tests, 4 failures
-```
+```text
 
 ### Phase 2 Output
+
 ```markdown
 ## TDD Phase 2: Implementation
 
@@ -153,13 +164,14 @@ Expected: 4 tests, 4 failures
 
 ### Final Result
 All 4 tests passing ✅
-```
+```text
 
 ---
 
 ## Examples
 
 ### Laravel Example
+
 ```php
 // Phase 1: Tests
 describe('UserService', function () {
@@ -184,9 +196,10 @@ describe('UserService', function () {
         ]))->toThrow(ValidationException::class);
     });
 });
-```
+```text
 
 ### Next.js Example
+
 ```typescript
 // Phase 1: Tests
 describe('createUser', () => {
@@ -208,7 +221,7 @@ describe('createUser', () => {
       .rejects.toThrow('Unauthorized');
   });
 });
-```
+```text
 
 ---
 
@@ -226,4 +239,4 @@ pnpm test --watch UserService
 # With coverage
 php artisan test --coverage
 pnpm test --coverage
-```
+```text

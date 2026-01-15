@@ -144,7 +144,8 @@ download_files() {
         local full_url="$REPO_URL/$src"
         
         # Create parent directory
-        local parent_dir=$(dirname "$full_dest")
+        local parent_dir
+        parent_dir=$(dirname "$full_dest")
         
         if [[ "$DRY_RUN" == true ]]; then
             echo "  Would download: $src → $full_dest"

@@ -13,6 +13,7 @@ What framework or technology should be supported?
 ## Use Case
 
 What audit/review type is needed?
+
 - [ ] Security Audit
 - [ ] Performance Audit
 - [ ] Code Review
@@ -24,6 +25,7 @@ What audit/review type is needed?
 What framework-specific checks should be included?
 
 Example for Django:
+
 - [ ] SQL injection via ORM
 - [ ] CSRF middleware
 - [ ] Debug mode in settings
@@ -43,6 +45,7 @@ If you have example prompts or checks, share them here:
 ## Priority
 
 How important is this for you?
+
 - [ ] Critical - blocking my workflow
 - [ ] High - would significantly help
 - [ ] Medium - nice to have

@@ -1,17 +1,19 @@
 # /checkpoint — Save Progress
 
 ## Purpose
+
 Save current progress, decisions, and state to scratchpad for continuity.
 
 ---
 
 ## Usage
 
-```
+```text
 /checkpoint [description]
-```
+```text
 
 **Examples:**
+
 - `/checkpoint completed user auth`
 - `/checkpoint phase 1 done, starting phase 2`
 - `/checkpoint blocked - need API credentials`
@@ -68,7 +70,7 @@ To continue from here:
 \`\`\`
 Read .claude/scratchpad/checkpoint-[slug].md and continue from Phase 3
 \`\`\`
-```
+```text
 
 ---
 
@@ -92,6 +94,7 @@ Checkpoints saved to: `.claude/scratchpad/checkpoint-[slug].md`
 ## Resume Work
 
 To continue after a checkpoint:
-```
+
+```text
 Read .claude/scratchpad/checkpoint-[latest].md and continue where we left off
-```
+```text

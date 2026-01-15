@@ -1,6 +1,7 @@
 # Deploy Checklist — Laravel Template
 
 ## Цель
+
 Комплексная проверка перед деплоем Laravel приложения. Действуй как Senior DevOps Engineer.
 
 ---
@@ -51,24 +52,27 @@ grep -rn "dump(" app/ routes/ && echo "🟡 dump() found" || echo "✅ No dump()
 
 echo ""
 echo "Ready to deploy!"
-```
+```text
 
 ---
 
 ## 0.2 PROJECT SPECIFICS — [Project Name]
 
 **Deployment target:**
+
 - **Server**: [IP/hostname]
 - **Path**: [/path/to/app]
 - **URL**: [https://...]
 - **Process manager**: [PM2/Supervisor/systemd]
 
 **Database:**
+
 - **Name**: [db_name]
 - **User**: [db_user]
 - **Password**: см. `.env` → `DB_PASSWORD`
 
 **Важные файлы:**
+
 - `.env` — переменные окружения
 - `/etc/supervisor/conf.d/...` — Supervisor config (если есть)
 
@@ -94,7 +98,7 @@ grep -rn "dd(" app/ resources/ routes/
 grep -rn "dump(" app/ resources/ routes/
 grep -rn "var_dump" app/ resources/
 grep -rn "console.log" resources/js/
-```
+```text
 
 - [ ] Нет `dd()`, `dump()`, `var_dump()`
 - [ ] Нет `console.log()` в production
@@ -109,7 +113,7 @@ grep -rn "console.log" resources/js/
 
 ```bash
 find . -name "*.bak" -o -name "*.tmp" -o -name "*.old"
-```
+```text
 
 - [ ] Нет `.bak`, `.tmp`, `.old` файлов
 
@@ -122,7 +126,7 @@ find . -name "*.bak" -o -name "*.tmp" -o -name "*.old"
 ```bash
 php artisan test
 php artisan test --coverage --min=80
-```
+```text
 
 - [ ] Все тесты проходят
 - [ ] Нет skipped тестов без причины
@@ -133,7 +137,7 @@ php artisan test --coverage --min=80
 ```bash
 ./vendor/bin/phpstan analyse --memory-limit=2G
 ./vendor/bin/pint --test
-```
+```text
 
 - [ ] PHPStan без ошибок
 - [ ] Code style OK
@@ -142,7 +146,7 @@ php artisan test --coverage --min=80
 
 ```bash
 npm ci && npm run build
-```
+```text
 
 - [ ] Build проходит без ошибок
 
@@ -156,7 +160,7 @@ npm ci && npm run build
 php artisan migrate:status
 php artisan migrate --pretend
 php artisan migrate:rollback --pretend
-```
+```text
 
 ```php
 // ✅ Хорошо — безопасные изменения
@@ -166,7 +170,7 @@ Schema::table('sites', function (Blueprint $table) {
 
 // ❌ Опасно — NOT NULL без default
 $table->string('required_column');  // Сломает существующие записи!
-```
+```text
 
 - [ ] Все миграции имеют `down()` метод
 - [ ] Новые NOT NULL колонки имеют default или nullable
@@ -190,7 +194,7 @@ if (app()->environment('production')) {
     $this->command->error('Cannot seed in production!');
     return;
 }
-```
+```text
 
 - [ ] Seeders не выполняются в production
 - [ ] Нет `truncate()` без проверки environment
@@ -200,7 +204,7 @@ if (app()->environment('production')) {
 ```bash
 # Backup перед миграциями
 mysqldump -u $DB_USERNAME -p$DB_PASSWORD $DB_DATABASE > backup_$(date +%Y%m%d_%H%M%S).sql
-```
+```text
 
 - [ ] Backup БД создан перед миграциями
 - [ ] Backup проверен на восстановимость
@@ -225,7 +229,7 @@ SESSION_DRIVER=redis        # Не file в production
 QUEUE_CONNECTION=redis      # Не sync в production
 
 SESSION_SECURE_COOKIE=true
-```
+```text
 
 - [ ] `APP_ENV=production`
 - [ ] `APP_DEBUG=false`
@@ -240,7 +244,7 @@ SESSION_SECURE_COOKIE=true
 ```bash
 # Найти env() вне config/
 grep -rn "env(" app/ routes/ resources/ --include="*.php" | grep -v "config/"
-```
+```text
 
 - [ ] Нет `env()` вызовов вне `config/` директории
 - [ ] `php artisan config:cache` работает
@@ -253,7 +257,7 @@ grep -rn "env(" app/ routes/ resources/ --include="*.php" | grep -v "config/"
 
 ```bash
 composer install --no-dev --optimize-autoloader --no-interaction
-```
+```text
 
 - [ ] `composer install --no-dev` успешен
 - [ ] Нет missing dependencies
@@ -264,7 +268,7 @@ composer install --no-dev --optimize-autoloader --no-interaction
 rm -rf node_modules
 npm ci
 npm run build
-```
+```text
 
 - [ ] `npm ci` успешен
 - [ ] `npm run build` успешен
@@ -285,7 +289,7 @@ npm run build
 ```bash
 chmod -R 755 storage bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache
-```
+```text
 
 - [ ] `storage/` — 755, владелец www-data
 - [ ] `bootstrap/cache/` — 755, владелец www-data
@@ -295,7 +299,7 @@ chown -R www-data:www-data storage bootstrap/cache
 ```bash
 composer audit
 npm audit
-```
+```text
 
 - [ ] `composer audit` — нет critical/high уязвимостей
 - [ ] `npm audit` — нет critical/high уязвимостей
@@ -362,7 +366,7 @@ else
     echo "Health check failed! HTTP: $HTTP_CODE"
     exit 1
 fi
-```
+```text
 
 ---
 
@@ -374,7 +378,7 @@ fi
 curl -I https://[domain]
 curl -I https://[domain]/login
 curl -I https://[domain]/api/health
-```
+```text
 
 - [ ] Homepage загружается
 - [ ] Логин работает
@@ -388,7 +392,7 @@ curl -I https://[domain]/api/health
 tail -f storage/logs/laravel.log
 grep -i "error\|exception\|fatal" storage/logs/laravel.log | tail -20
 php artisan queue:failed
-```
+```text
 
 - [ ] Нет новых ошибок в логах
 - [ ] Нет failed jobs
@@ -424,11 +428,12 @@ php artisan queue:restart
 php artisan up
 
 echo "Rollback completed!"
-```
+```text
 
 ### 9.2 Rollback Triggers
 
 Откатывай если:
+
 - Error rate > 5% после деплоя
 - Critical функционал не работает
 - Database corruption
@@ -448,11 +453,12 @@ echo "Rollback completed!"
 | "Pint показывает изменения" | Code style не блокер |
 
 **Градация готовности:**
-```
+
+```text
 READY (95-100%) — Деплой сейчас
 ACCEPTABLE (70-94%) — Деплой возможен
 NOT READY (<70%) — Блокируй
-```
+```text
 
 ---
 
@@ -483,7 +489,7 @@ Version: [git commit hash]
 ## Post-Deploy
 - [ ] Monitor for 24h
 - [ ] Check queues
-```
+```text
 
 ---
 

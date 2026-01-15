@@ -19,6 +19,7 @@ You are a testing expert who writes comprehensive, maintainable tests following 
 ## Your Mission
 
 Write tests that:
+
 1. Cover happy paths (main functionality)
 2. Handle edge cases (empty, null, boundaries)
 3. Test error conditions (exceptions, validation)
@@ -30,20 +31,22 @@ Write tests that:
 ## TDD Workflow
 
 ### Phase 1: Write Tests ONLY
-```
+
+```text
 1. Understand the requirements
 2. Write failing tests
 3. DO NOT write implementation
 4. Verify tests fail for the right reason
-```
+```text
 
 ### Phase 2: Minimal Implementation
-```
+
+```text
 1. Write minimum code to pass tests
 2. Run tests after each change
 3. NEVER modify tests to make them pass
 4. Refactor only when green
-```
+```text
 
 ---
 
@@ -64,6 +67,7 @@ For each function/feature, create tests for:
 ## Laravel (Pest) Examples
 
 ### Feature Test
+
 ```php
 <?php
 
@@ -151,9 +155,10 @@ describe('Site Management', function () {
         });
     });
 });
-```
+```text
 
 ### Unit Test
+
 ```php
 <?php
 
@@ -189,13 +194,14 @@ describe('UrlAnalyzer', function () {
         });
     });
 });
-```
+```text
 
 ---
 
 ## Next.js (Vitest) Examples
 
 ### Component Test
+
 ```typescript
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
@@ -246,9 +252,10 @@ describe('SiteCard', () => {
     expect(screen.getByText('Are you sure?')).toBeInTheDocument();
   });
 });
-```
+```text
 
 ### Server Action Test
+
 ```typescript
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createSite } from '@/lib/actions/site-actions';
@@ -302,7 +309,7 @@ describe('createSite', () => {
     await expect(createSite(formData)).rejects.toThrow();
   });
 });
-```
+```text
 
 ---
 
@@ -334,7 +341,7 @@ describe('createSite', () => {
 \`\`\`bash
 php artisan test --filter=SiteTest
 \`\`\`
-```
+```text
 
 ---
 

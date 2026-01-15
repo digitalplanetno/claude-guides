@@ -1,12 +1,13 @@
 # Git Worktrees Guide
 
-*Use git worktrees for parallel development tasks*
+Use git worktrees for parallel development tasks.
 
 ---
 
 ## What Are Worktrees?
 
 Git worktrees allow multiple working directories from the same repository. Perfect for:
+
 - Working on multiple features simultaneously
 - Quick bug fixes while feature work is in progress
 - Code reviews without stashing changes
@@ -17,6 +18,7 @@ Git worktrees allow multiple working directories from the same repository. Perfe
 ## Basic Commands
 
 ### Create Worktree
+
 ```bash
 # Create worktree for a new branch
 git worktree add ../project-feature feature/new-feature
@@ -26,17 +28,19 @@ git worktree add ../project-bugfix bugfix/urgent-fix
 
 # Create worktree at specific commit
 git worktree add ../project-review abc123
-```
+```text
 
 ### List Worktrees
+
 ```bash
 git worktree list
 # /path/to/main         abc1234 [main]
 # /path/to/main-feature def5678 [feature/x]
 # /path/to/main-bugfix  ghi9012 [bugfix/y]
-```
+```text
 
 ### Remove Worktree
+
 ```bash
 # Remove worktree (keeps branch)
 git worktree remove ../project-feature
@@ -46,7 +50,7 @@ git worktree remove --force ../project-feature
 
 # Clean up stale worktrees
 git worktree prune
-```
+```text
 
 ---
 
@@ -78,81 +82,88 @@ cd ../myapp
 
 # After bugfix is merged, clean up
 git worktree remove ../myapp-bugfix
-```
+```text
 
 ---
 
 ## Directory Structure
 
-```
+```text
 projects/
 ├── myapp/                 # Main worktree (main branch)
 ├── myapp-feature-auth/    # Feature worktree
 ├── myapp-bugfix-123/      # Bugfix worktree
 └── myapp-review-pr-456/   # Code review worktree
-```
+```text
 
 ---
 
 ## Best Practices
 
 ### Naming Convention
+
 ```bash
 # Pattern: {project}-{type}-{name}
 git worktree add ../myapp-feature-oauth feature/oauth
 git worktree add ../myapp-fix-login bugfix/login-issue
 git worktree add ../myapp-review-42 pr/42
-```
+```text
 
 ### Cleanup Routine
+
 ```bash
 # Weekly cleanup
 git worktree list
 git worktree prune
 # Remove merged branches
 git branch --merged | grep -v main | xargs git branch -d
-```
+```text
 
 ### With Node Projects
+
 ```bash
 # After creating worktree, install dependencies
 cd ../myapp-feature
 npm install  # or pnpm install
 
 # Note: node_modules is NOT shared between worktrees
-```
+```text
 
 ### With Laravel Projects
+
 ```bash
 cd ../myapp-feature
 composer install
 cp ../.env .env  # Copy env from main
 php artisan key:generate
-```
+```text
 
 ---
 
 ## Common Issues
 
 ### "fatal: is already checked out"
+
 ```bash
 # Branch is checked out in another worktree
 # Either remove that worktree or use different branch
 git worktree list  # Find which worktree has it
-```
+```text
 
 ### Database Conflicts
+
 ```bash
 # Use different databases per worktree
 # In .env:
 DB_DATABASE=myapp_feature_oauth
-```
+```text
 
 ---
 
 ## Integration with Claude Code
 
 When working with Claude across worktrees:
+
 1. Each worktree can have its own `.claude/` directory
 2. Or share via symlink: `ln -s ../myapp/.claude .claude`
 3. Scratchpad can track which worktree you're in

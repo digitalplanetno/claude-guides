@@ -14,6 +14,7 @@ This skill provides Shadcn UI expertise including component management, Radix pr
 Shadcn UI is **NOT** installed via npm as a single package. Components are copied into your codebase.
 
 ### Critical Understanding
+
 ```tsx
 // ❌ WRONG — This import does not exist
 import { Button } from 'shadcn-ui';
@@ -21,9 +22,10 @@ import { Button } from '@shadcn/ui';
 
 // ✅ CORRECT — Import from your local components
 import { Button } from "@/components/ui/button";
-```
+```text
 
 ### Adding New Components
+
 ```bash
 # Check if component exists first
 ls components/ui/
@@ -35,14 +37,15 @@ npx shadcn@latest add form
 
 # Install multiple at once
 npx shadcn@latest add button card input label
-```
+```text
 
 ---
 
 ## 📁 File Structure & Imports
 
 ### Standard Location
-```
+
+```text
 components/
 └── ui/                    # All Shadcn components live here
     ├── button.tsx
@@ -51,9 +54,10 @@ components/
     ├── form.tsx
     ├── input.tsx
     └── ...
-```
+```text
 
 ### Import Syntax
+
 ```tsx
 // ✅ Always use path alias
 import { Button } from "@/components/ui/button";
@@ -62,9 +66,10 @@ import { Input } from "@/components/ui/input";
 
 // ❌ Never use relative paths
 import { Button } from "../../components/ui/button";
-```
+```text
 
 ### Path Alias Setup (tsconfig.json)
+
 ```json
 {
   "compilerOptions": {
@@ -73,7 +78,7 @@ import { Button } from "../../components/ui/button";
     }
   }
 }
-```
+```text
 
 ---
 
@@ -82,6 +87,7 @@ import { Button } from "../../components/ui/button";
 The `cn()` function merges classes correctly using `clsx` + `tailwind-merge`.
 
 ### Always Use for Custom Components
+
 ```tsx
 import { cn } from "@/lib/utils";
 
@@ -104,9 +110,10 @@ export function CustomButton({ className, variant, ...props }: ButtonProps) {
     />
   );
 }
-```
+```text
 
 ### Common Mistakes
+
 ```tsx
 // ❌ Template literal — doesn't handle conflicts
 className={`bg-red-500 ${className}`}
@@ -116,16 +123,17 @@ className={["bg-red-500", className].join(" ")}
 
 // ✅ cn() — properly merges and handles conflicts
 className={cn("bg-red-500", className)}
-```
+```text
 
 ### Why `cn()` Matters
+
 ```tsx
 // With cn(), later classes win:
 cn("bg-red-500", "bg-blue-500")  // → "bg-blue-500"
 
 // Without cn(), both stay (broken):
 `bg-red-500 bg-blue-500`  // → Both classes, unpredictable result
-```
+```text
 
 ---
 
@@ -134,11 +142,13 @@ cn("bg-red-500", "bg-blue-500")  // → "bg-blue-500"
 Shadcn uses **Lucide React** as the default icon library.
 
 ### Installation
+
 ```bash
 pnpm add lucide-react
-```
+```text
 
 ### Usage
+
 ```tsx
 // Import icons individually
 import {
@@ -159,9 +169,10 @@ import {
 <Mail className="size-4" />   {/* 16px */}
 <Mail className="size-5" />   {/* 20px */}
 <Mail className="size-6" />   {/* 24px */}
-```
+```text
 
 ### Common Icons Reference
+
 | Icon | Use Case |
 |------|----------|
 | `Loader2` | Loading spinner (add `animate-spin`) |
@@ -179,12 +190,14 @@ import {
 Shadcn's Form components integrate React Hook Form with Zod validation.
 
 ### Installation
+
 ```bash
 npx shadcn@latest add form input label
 pnpm add zod react-hook-form @hookform/resolvers
-```
+```text
 
 ### Complete Form Pattern
+
 ```tsx
 "use client";
 
@@ -270,9 +283,10 @@ export function LoginForm() {
     </Form>
   );
 }
-```
+```text
 
 ### Form with Select
+
 ```tsx
 import {
   Select,
@@ -304,13 +318,14 @@ import {
     </FormItem>
   )}
 />
-```
+```text
 
 ---
 
 ## 🎨 Theme & Colors
 
 ### CSS Variables (globals.css)
+
 Shadcn uses CSS variables for theming. Always use semantic tokens:
 
 ```tsx
@@ -325,9 +340,10 @@ Shadcn uses CSS variables for theming. Always use semantic tokens:
 // ❌ Avoid hardcoded colors (breaks dark mode)
 <div className="bg-white text-black">
 <div className="bg-slate-900">
-```
+```text
 
 ### Available Tokens
+
 | Token | Light | Dark | Use Case |
 |-------|-------|------|----------|
 | `background` | White | Dark | Page background |
@@ -344,6 +360,7 @@ Shadcn uses CSS variables for theming. Always use semantic tokens:
 ## 🔧 Common Components Patterns
 
 ### Dialog (Modal)
+
 ```tsx
 import {
   Dialog,
@@ -372,9 +389,10 @@ import {
     </DialogFooter>
   </DialogContent>
 </Dialog>
-```
+```text
 
 ### Card
+
 ```tsx
 import {
   Card,
@@ -397,9 +415,10 @@ import {
     <Button>Action</Button>
   </CardFooter>
 </Card>
-```
+```text
 
 ### Toast Notifications
+
 ```tsx
 // Setup: Add Toaster to root layout
 import { Toaster } from "@/components/ui/toaster";
@@ -434,13 +453,14 @@ function MyComponent() {
     </Button>
   );
 }
-```
+```text
 
 ---
 
 ## ⚠️ Common Mistakes
 
 ### 1. Wrong Import Path
+
 ```tsx
 // ❌ These don't exist
 import { Button } from 'shadcn-ui';
@@ -448,25 +468,28 @@ import { Button } from '@radix-ui/react-button';  // Raw Radix, unstyled
 
 // ✅ Correct
 import { Button } from "@/components/ui/button";
-```
+```text
 
 ### 2. Missing Component Installation
+
 ```bash
 # Error: Cannot find module '@/components/ui/accordion'
 # Solution: Install the component first
 npx shadcn@latest add accordion
-```
+```text
 
 ### 3. Not Using `cn()` for Class Merging
+
 ```tsx
 // ❌ className override won't work properly
 <Button className={`mt-4 ${className}`}>
 
 // ✅ Use cn()
 <Button className={cn("mt-4", className)}>
-```
+```text
 
 ### 4. Forgetting `asChild` for Custom Triggers
+
 ```tsx
 // ❌ Renders nested buttons (invalid HTML)
 <DialogTrigger>
@@ -477,13 +500,14 @@ npx shadcn@latest add accordion
 <DialogTrigger asChild>
   <Button>Open</Button>
 </DialogTrigger>
-```
+```text
 
 ### 5. Using Wrong Icon Library
+
 ```tsx
 // ❌ Don't mix icon libraries
 import { FaUser } from 'react-icons/fa';
 
 // ✅ Use Lucide (Shadcn default)
 import { User } from 'lucide-react';
-```
+```text

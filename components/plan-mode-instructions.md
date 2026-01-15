@@ -1,12 +1,13 @@
 # Plan Mode Instructions
 
-*Include this section in your CLAUDE.md*
+Include this section in your CLAUDE.md.
 
 ---
 
 ## 🧠 Plan Before Code (MANDATORY)
 
 ### When to Use Plan Mode
+
 - New features (more than trivial changes)
 - Refactoring multiple files
 - Complex bug fixes
@@ -14,6 +15,7 @@
 - Architecture decisions
 
 ### How to Activate
+
 1. Press `Shift+Tab` twice to enter Plan Mode
 2. Or explicitly say "Plan this, don't write code yet"
 
@@ -28,7 +30,7 @@
 
 ### Example Workflow
 
-```
+```text
 Step 1: Enter Plan Mode
 "I need to add OAuth login. Think harder about the implementation.
 Don't write any code yet — just create a plan."
@@ -41,12 +43,14 @@ Step 3: Approve
 
 Step 4: Implement
 Claude implements Phase 1, commits, then continues.
-```
+```text
 
 ### Plan Output Location
+
 All plans saved to: `.claude/scratchpad/plan-[name].md`
 
 ### Rules
+
 - ✅ DO research existing code before planning
 - ✅ DO ask clarifying questions
 - ✅ DO identify risks and edge cases
@@ -71,4 +75,4 @@ For complex multi-step tasks, maintain progress in scratchpad:
 
 ## Notes
 - Using approach X because Y
-```
+```text

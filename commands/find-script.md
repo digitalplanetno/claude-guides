@@ -1,17 +1,19 @@
 # /find-script — Find Scripts and Commands
 
 ## Purpose
+
 Find scripts, artisan commands, npm scripts, or bash scripts in the project.
 
 ---
 
 ## Usage
 
-```
+```text
 /find-script <query>
-```
+```text
 
 **Examples:**
+
 - `/find-script deploy` — Find deployment scripts
 - `/find-script queue` — Find queue-related scripts
 - `/find-script build` — Find build scripts
@@ -21,29 +23,32 @@ Find scripts, artisan commands, npm scripts, or bash scripts in the project.
 ## Search Locations
 
 ### Laravel Projects
-```
+
+```text
 - app/Console/Commands/*.php     # Artisan commands
 - scripts/                        # Bash scripts
 - composer.json → scripts         # Composer scripts
 - package.json → scripts          # NPM scripts
 - deploy.sh, deploy-*.sh          # Deploy scripts
 - Makefile                        # Make targets
-```
+```text
 
 ### Next.js Projects
-```
+
+```text
 - scripts/                        # Bash/Node scripts
 - package.json → scripts          # NPM scripts
 - bin/                            # Binary scripts
 - .github/workflows/              # CI/CD scripts
-```
+```text
 
 ### Universal
-```
+
+```text
 - *.sh files                      # Shell scripts
 - Makefile                        # Make targets
 - docker-compose.yml              # Docker commands
-```
+```text
 
 ---
 
@@ -72,7 +77,7 @@ Find scripts, artisan commands, npm scripts, or bash scripts in the project.
 # Most relevant command for your query
 php artisan app:command
 \`\`\`
-```
+```text
 
 ---
 

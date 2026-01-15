@@ -1,17 +1,19 @@
 # /explain — Explain Code or Architecture
 
 ## Purpose
+
 Explain how code works, architectural decisions, or system behavior.
 
 ---
 
 ## Usage
 
-```
+```text
 /explain <target>
-```
+```text
 
 **Examples:**
+
 - `/explain app/Services/PaymentService.php` — Explain entire service
 - `/explain authentication flow` — Explain system flow
 - `/explain this function` — Explain selected code
@@ -22,16 +24,19 @@ Explain how code works, architectural decisions, or system behavior.
 ## Explanation Levels
 
 ### 1. High-Level (Architecture)
+
 - What does this system/module do?
 - How does it fit in the overall architecture?
 - What are the main components?
 
 ### 2. Mid-Level (Flow)
+
 - What's the sequence of operations?
 - How do components interact?
 - What's the data flow?
 
 ### 3. Low-Level (Code)
+
 - What does this specific code do?
 - Why is it written this way?
 - What are the edge cases?
@@ -68,7 +73,7 @@ Explain how code works, architectural decisions, or system behavior.
 ### Gotchas / Edge Cases
 - [Edge case 1]
 - [Edge case 2]
-```
+```text
 
 ### For Architecture
 
@@ -105,7 +110,7 @@ Explain how code works, architectural decisions, or system behavior.
 ### Design Decisions
 - **Decision 1:** [why]
 - **Decision 2:** [why]
-```
+```text
 
 ---
 

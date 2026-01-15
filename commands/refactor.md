@@ -1,17 +1,19 @@
 # /refactor — Refactor Code
 
 ## Purpose
+
 Improve code structure without changing functionality.
 
 ---
 
 ## Usage
 
-```
+```text
 /refactor <target> [--type=extract|simplify|rename|pattern]
-```
+```text
 
 **Examples:**
+
 - `/refactor UserController` — General refactoring
 - `/refactor this function --type=extract` — Extract methods
 - `/refactor OrderService --type=pattern` — Apply design pattern
@@ -79,7 +81,7 @@ private function calculateTotal(Order $order): float
     $tax = $subtotal * 0.2;
     return $subtotal + $tax;
 }
-```
+```text
 
 ### 2. Simplify Conditionals
 
@@ -117,7 +119,7 @@ function getDiscount(user: User, order: Order): number {
 
   return order.items.length > 5 ? 0.25 : 0.20;
 }
-```
+```text
 
 ### 3. Replace Conditionals with Polymorphism
 
@@ -158,23 +160,26 @@ class PaymentProcessor
         $method->process($payment);
     }
 }
-```
+```text
 
 ---
 
 ## Refactoring Checklist
 
 ### Before Refactoring
+
 - [ ] Tests exist and pass
 - [ ] Code is under version control
 - [ ] Understand what the code does
 
 ### During Refactoring
+
 - [ ] Small steps (commit after each change)
 - [ ] Run tests frequently
 - [ ] Don't change functionality
 
 ### After Refactoring
+
 - [ ] All tests still pass
 - [ ] Code is more readable
 - [ ] No new bugs introduced
@@ -211,7 +216,7 @@ class PaymentProcessor
 - [ ] Tests pass
 - [ ] Functionality unchanged
 - [ ] Code is cleaner
-```
+```text
 
 ---
 

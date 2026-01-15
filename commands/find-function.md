@@ -1,17 +1,19 @@
 # /find-function — Find Functions and Methods
 
 ## Purpose
+
 Find where a function, method, or class is defined or used in the codebase.
 
 ---
 
 ## Usage
 
-```
+```text
 /find-function <name> [--usage]
-```
+```text
 
 **Examples:**
+
 - `/find-function processPayment` — Find definition
 - `/find-function UserService --usage` — Find all usages
 - `/find-function handleSubmit` — Find React handler
@@ -33,7 +35,7 @@ grep -rn "function $NAME" src/ app/ lib/
 grep -rn "const $NAME = " src/ app/ lib/
 grep -rn "export function $NAME" src/ app/ lib/
 grep -rn "export const $NAME" src/ app/ lib/
-```
+```text
 
 ### 2. Usage Search (with --usage flag)
 
@@ -42,7 +44,7 @@ grep -rn "export const $NAME" src/ app/ lib/
 grep -rn "$NAME(" app/ lib/ src/ components/
 grep -rn "->$NAME(" app/          # PHP method calls
 grep -rn "::$NAME(" app/          # PHP static calls
-```
+```text
 
 ---
 
@@ -65,7 +67,7 @@ public function functionName(string $param): Result
 **Type:** Public method of `PaymentService`
 **Parameters:** `$param: string`
 **Returns:** `Result`
-```
+```text
 
 ### With --usage Flag
 
@@ -81,7 +83,7 @@ public function functionName(string $param): Result
 | Controller.php | 23 | `$service->functionName($data)` |
 | Job.php | 45 | `$this->service->functionName($item)` |
 | Test.php | 12 | `$mock->functionName(...)` |
-```
+```text
 
 ### Not Found
 
@@ -94,7 +96,7 @@ public function functionName(string $param): Result
 - Check spelling
 - Function may be from a package (vendor/)
 - Try searching partial name: `/find-function payment`
-```
+```text
 
 ---
 

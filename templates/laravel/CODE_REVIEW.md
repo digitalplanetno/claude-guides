@@ -1,6 +1,7 @@
 # Code Review — Laravel Template
 
 ## Цель
+
 Комплексный code review Laravel приложения. Действуй как Senior Tech Lead.
 
 ---
@@ -51,22 +52,25 @@ CONSOLE=$(grep -rn "console.log" resources/js/ --include="*.vue" --include="*.js
 [ "$CONSOLE" -lt 10 ] && echo "✅ console.log: $CONSOLE" || echo "🟡 console.log: $CONSOLE (много)"
 
 echo "Done!"
-```
+```text
 
 ---
 
 ## 0.2 PROJECT SPECIFICS — [Project Name]
 
 **Принятые решения (не нужно исправлять):**
+
 - [Осознанные architectural decisions]
 
 **Ключевые файлы для review:**
+
 - `app/Services/` — бизнес-логика
 - `app/Http/Controllers/` — должны быть тонкими
 - `resources/js/Pages/` — Inertia страницы (если используется)
 - `app/Jobs/` — фоновые задачи
 
 **Паттерны проекта:**
+
 - FormRequest для валидации
 - Services для бизнес-логики
 - Jobs для долгих операций
@@ -94,7 +98,7 @@ git diff --name-only HEAD~5
 
 # Незакоммиченные изменения
 git status --short
-```
+```text
 
 - [ ] Какие файлы изменены
 - [ ] Какие новые файлы созданы
@@ -149,7 +153,7 @@ class SiteController extends Controller
         return redirect()->route('sites.show', $site);
     }
 }
-```
+```text
 
 - [ ] Controllers < 100 строк
 - [ ] Методы контроллеров < 20 строк
@@ -181,7 +185,7 @@ class ParserService
         $response = $this->client->get($url);
     }
 }
-```
+```text
 
 - [ ] Зависимости инжектятся через конструктор
 - [ ] Нет `new ClassName()` внутри методов (кроме DTO)
@@ -189,7 +193,7 @@ class ParserService
 
 ### 2.3 Правильное расположение файлов
 
-```
+```text
 app/
 ├── Http/
 │   ├── Controllers/        // Только routing
@@ -199,7 +203,7 @@ app/
 ├── Jobs/                   // Фоновые задачи
 ├── DTOs/                   // Data Transfer Objects
 └── Enums/                  // Перечисления
-```
+```text
 
 - [ ] Файлы в правильных директориях
 - [ ] Нет God-классов (> 300 строк)
@@ -219,7 +223,7 @@ $res = $this->proc($d);
 // ✅ Хорошо — говорящие имена
 $site = Site::find($siteId);
 $parsedData = $this->parseContent($site);
-```
+```text
 
 - [ ] **Переменные** — существительные, camelCase: `$siteUrl`, `$parsedContent`
 - [ ] **Методы** — глаголы, camelCase: `getSite()`, `parseContent()`
@@ -259,7 +263,7 @@ private function shouldProcess(array $item): bool
         && $item['status'] === 'active'
         && !empty($item['url']);
 }
-```
+```text
 
 - [ ] Методы < 20 строк (идеально < 10)
 - [ ] Вложенность < 3 уровней
@@ -295,7 +299,7 @@ class Site extends Model
 
 // Использование
 $active = Site::forUser()->status('active')->latest()->get();
-```
+```text
 
 - [ ] Нет copy-paste кода
 - [ ] Повторяющиеся запросы вынесены в scopes
@@ -314,7 +318,7 @@ declare(strict_types=1);
 public function process(array $sites, ?ParserOptions $options = null): ProcessedResult
 {
 }
-```
+```text
 
 - [ ] Все методы имеют return type
 - [ ] Параметры типизированы
@@ -336,7 +340,7 @@ $count = Site::get()->count();
 $site = Site::find($id);
 $sites = Site::where('status', 'active')->get();
 $count = Site::count();
-```
+```text
 
 - [ ] Используется `find()` вместо `where('id', $id)->first()`
 - [ ] Используется `findOrFail()` когда запись должна существовать
@@ -372,7 +376,7 @@ class StoreSiteRequest extends FormRequest
         ];
     }
 }
-```
+```text
 
 - [ ] Валидация в FormRequest классах
 - [ ] Кастомные сообщения об ошибках
@@ -398,7 +402,7 @@ class ScreenshotService
 
 // В сервисе
 $this->apiKey = config('services.screenshot.api_key');
-```
+```text
 
 - [ ] `env()` только в config файлах
 - [ ] Все настройки через `config()`
@@ -427,7 +431,7 @@ try {
     ]);
     throw new SiteUnreachableException($url, $e);
 }
-```
+```text
 
 - [ ] Специфичные exception типы
 - [ ] Логирование с контекстом
@@ -445,7 +449,7 @@ return response()->json([
 if ($e instanceof SiteUnreachableException) {
     return back()->with('error', 'Не удалось подключиться к сайту.');
 }
-```
+```text
 
 - [ ] Пользователь видит понятные сообщения
 - [ ] Технические детали только в логах
@@ -531,11 +535,13 @@ public function store(StoreSiteRequest $request, SiteService $service) {
     $site = $service->create($request->validated());
     return redirect()->route('sites.show', $site);
 }
-```
+```text
 
 ## Good Practices Found
+
 - [Что хорошо]
-```
+
+```text
 
 ---
 

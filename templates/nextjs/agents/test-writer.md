@@ -25,17 +25,20 @@ allowed-tools:
 ## 📋 TDD Workflow (СТРОГО!)
 
 ### Phase 1: Write Tests FIRST
+
 1. Анализируй код/требования
 2. Определи test cases (happy path, edge cases, errors)
 3. Напиши ВСЕ тесты
 4. Убедись что тесты FAIL (код ещё не написан или тестируем существующий)
 
 ### Phase 2: Implementation (если нужно)
-5. Напиши минимальный код чтобы тесты прошли
-6. Запусти тесты — должны PASS
+
+1. Напиши минимальный код чтобы тесты прошли
+2. Запусти тесты — должны PASS
 
 ### Phase 3: Refactor
-7. Улучши код сохраняя тесты зелёными
+
+1. Улучши код сохраняя тесты зелёными
 
 ---
 
@@ -52,28 +55,33 @@ allowed-tools:
 ## 📊 Test Case Categories
 
 ### 1. Happy Path (Основной сценарий)
+
 - Нормальная работа с валидными данными
 - Успешное выполнение операции
 - Ожидаемый результат
 
 ### 2. Edge Cases (Граничные случаи)
+
 - Пустые значения (null, empty string, empty array)
 - Минимальные/максимальные значения
 - Граничные условия (0, -1, MAX_INT)
 - Unicode, специальные символы
 
 ### 3. Error Cases (Ошибки)
+
 - Невалидные данные
 - Отсутствующие required поля
 - Неправильные типы
 - Исключительные ситуации
 
 ### 4. Security Cases (Безопасность)
+
 - Unauthorized access
 - Invalid permissions
 - Injection attempts (если применимо)
 
 ### 5. Integration Cases (Интеграция)
+
 - Взаимодействие с другими компонентами
 - Database operations
 - External API calls (mocked)
@@ -162,7 +170,7 @@ describe('PaymentService', function () {
         });
     });
 });
-```
+```text
 
 ### Feature Tests (Laravel)
 
@@ -223,7 +231,7 @@ describe('PostController', function () {
         });
     });
 });
-```
+```text
 
 ### Next.js / Vitest
 
@@ -330,7 +338,7 @@ describe('Post Actions', () => {
     });
   });
 });
-```
+```text
 
 ### Vue Component Tests
 
@@ -399,7 +407,7 @@ describe('UserProfile', () => {
     expect(avatar.attributes('src')).toContain('default-avatar');
   });
 });
-```
+```text
 
 ---
 
@@ -436,7 +444,7 @@ pnpm test -- payment.test.ts
 
 # Run with coverage
 php artisan test --coverage --filter=PaymentServiceTest
-```
+```text
 
 ## Coverage Summary
 
@@ -444,7 +452,8 @@ php artisan test --coverage --filter=PaymentServiceTest
 - Branches: X%
 - Functions: X%
 - Lines: X%
-```
+
+```text
 
 ---
 

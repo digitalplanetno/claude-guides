@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2025-01-13
 
 ### Added
+
 - CI/CD with GitHub Actions (shellcheck, markdownlint, template validation)
 - `update-claude.sh` script for updating templates in existing projects
 - Dry-run mode (`--dry-run`) for init scripts
@@ -24,12 +25,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CONTRIBUTING.md
 
 ### Changed
+
 - Improved init scripts with backup functionality
 - Better error handling in shell scripts
 
 ## [1.0.0] - 2025-01-13
 
 ### Added
+
 - Initial release
 - Base templates (framework-agnostic):
   - SECURITY_AUDIT.md

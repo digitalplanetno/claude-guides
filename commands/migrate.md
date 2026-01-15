@@ -1,23 +1,26 @@
 # /migrate — Database Migration Help
 
 ## Purpose
+
 Help create, review, or troubleshoot database migrations.
 
 ---
 
 ## Usage
 
-```
+```text
 /migrate <action> [options]
-```
+```text
 
 **Actions:**
+
 - `create` — Create new migration
 - `review` — Review existing migration
 - `fix` — Fix migration issues
 - `rollback` — Help with rollback
 
 **Examples:**
+
 - `/migrate create add_status_to_orders`
 - `/migrate review` — Review pending migrations
 - `/migrate fix` — Fix failed migration
@@ -31,7 +34,7 @@ Help create, review, or troubleshoot database migrations.
 
 ```bash
 php artisan make:migration add_status_to_orders_table
-```
+```text
 
 ```php
 // database/migrations/2025_01_13_000000_add_status_to_orders_table.php
@@ -59,7 +62,7 @@ return new class extends Migration
         });
     }
 };
-```
+```text
 
 ### Safe Migration Patterns
 
@@ -87,7 +90,7 @@ $table->renameColumn('old_name', 'new_name');
 
 // ❌ Dangerous: Drop column (data loss)
 $table->dropColumn('column_name');
-```
+```text
 
 ---
 
@@ -97,7 +100,7 @@ $table->dropColumn('column_name');
 
 ```bash
 npx prisma migrate dev --name add_status_to_orders
-```
+```text
 
 ```prisma
 // prisma/schema.prisma
@@ -109,7 +112,7 @@ model Order {
 
   @@index([status])
 }
-```
+```text
 
 ### Safe Patterns
 
@@ -126,7 +129,7 @@ requiredField String @default("default_value")
 
 // ✅ Safe: Add index
 @@index([fieldName])
-```
+```text
 
 ---
 
@@ -171,7 +174,7 @@ DB::table('orders')->whereNull('required_field')->update(['required_field' => 'd
 
 // Migration 3: Make NOT NULL
 $table->string('required_field')->nullable(false)->change();
-```
+```text
 
 ### Issue: Duplicate Index Name
 
@@ -181,7 +184,7 @@ $table->index('status');  // Might conflict
 
 // Solution: Explicit name
 $table->index('status', 'orders_status_index');
-```
+```text
 
 ### Issue: Foreign Key Constraint
 
@@ -191,7 +194,7 @@ $table->index('status', 'orders_status_index');
 // Solution: Drop constraint first
 $table->dropForeign(['user_id']);
 $table->dropColumn('user_id');
-```
+```text
 
 ---
 
@@ -236,7 +239,7 @@ php artisan migrate
 # Rollback (if needed)
 php artisan migrate:rollback --step=1
 \`\`\`
-```
+```text
 
 ---
 

@@ -18,6 +18,7 @@ You are a Laravel expert with deep knowledge of Eloquent, design patterns, perfo
 ### 1. Eloquent Optimization
 
 **N+1 Prevention:**
+
 ```php
 // ❌ N+1 queries
 $sites = Site::all();
@@ -38,6 +39,7 @@ $sites = Site::with(['checks' => function ($query) {
 ```
 
 **Query Optimization:**
+
 ```php
 // ❌ Loading all columns
 $users = User::all();
@@ -61,6 +63,7 @@ foreach (User::cursor() as $user) {
 ### 2. Architecture Patterns
 
 **Action Pattern:**
+
 ```php
 // app/Actions/CreateSite.php
 class CreateSite
@@ -92,6 +95,7 @@ public function store(StoreSiteRequest $request, CreateSite $action)
 ```
 
 **Service Pattern:**
+
 ```php
 // Stateless service with DI
 class AnalyzerService
@@ -115,6 +119,7 @@ class AnalyzerService
 ### 3. Security Best Practices
 
 **Input Validation:**
+
 ```php
 // app/Http/Requests/StoreSiteRequest.php
 class StoreSiteRequest extends FormRequest
@@ -136,6 +141,7 @@ class StoreSiteRequest extends FormRequest
 ```
 
 **Authorization with Policies:**
+
 ```php
 // app/Policies/SitePolicy.php
 class SitePolicy
@@ -220,6 +226,7 @@ $this->mock(AnalyzerService::class, function ($mock) {
 ## Quick Reference
 
 ### Artisan Commands
+
 ```bash
 # Model with everything
 php artisan make:model Site -mfs
@@ -238,6 +245,7 @@ php artisan make:test SiteTest
 ```
 
 ### Eloquent Cheatsheet
+
 ```php
 // Relationships
 hasOne, hasMany, belongsTo, belongsToMany, hasManyThrough

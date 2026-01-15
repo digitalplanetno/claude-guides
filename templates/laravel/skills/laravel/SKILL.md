@@ -12,6 +12,7 @@ This skill provides deep Laravel expertise including Eloquent optimization, arch
 ## 🔥 Common Pitfalls
 
 ### N+1 Query Problem
+
 ```php
 // ❌ N+1 — 1 + N queries
 foreach (Site::all() as $site) {
@@ -31,6 +32,7 @@ Site::with(['checks' => fn($q) => $q->failed()])->get();
 ```
 
 ### Mass Assignment
+
 ```php
 // ❌ CRITICAL
 protected $guarded = [];
@@ -44,6 +46,7 @@ protected $fillable = ['name', 'email', 'bio'];
 ```
 
 ### Query Builder vs Eloquent
+
 ```php
 // When to use Query Builder:
 // - Bulk operations
@@ -67,6 +70,7 @@ $site->update(['status' => 'active']);
 ## 🏗️ Architecture Patterns
 
 ### Action Classes
+
 ```php
 // app/Actions/Sites/CreateSite.php
 namespace App\Actions\Sites;
@@ -96,6 +100,7 @@ class CreateSite
 ```
 
 ### Service Classes
+
 ```php
 // Stateless, injected via DI
 class AnalyzerService
@@ -125,6 +130,7 @@ class AnalyzerService
 ```
 
 ### Repository Pattern (Optional)
+
 ```php
 // Use when need to swap implementations or testing
 interface SiteRepositoryInterface
@@ -152,6 +158,7 @@ class EloquentSiteRepository implements SiteRepositoryInterface
 ## 🚀 Performance
 
 ### Database Indexing
+
 ```php
 // Migration
 Schema::table('sites', function (Blueprint $table) {
@@ -162,6 +169,7 @@ Schema::table('sites', function (Blueprint $table) {
 ```
 
 ### Query Optimization
+
 ```php
 // Select only needed columns
 Site::select(['id', 'name', 'url'])->get();
@@ -183,6 +191,7 @@ foreach (Site::cursor() as $site) {
 ```
 
 ### Caching
+
 ```php
 // Simple cache
 $sites = Cache::remember("user.{$userId}.sites", 3600, function () use ($userId) {
@@ -203,6 +212,7 @@ Cache::forget("user.{$userId}.sites");
 ## 🔐 Security
 
 ### Input Validation
+
 ```php
 // app/Http/Requests/StoreSiteRequest.php
 class StoreSiteRequest extends FormRequest
@@ -226,6 +236,7 @@ class StoreSiteRequest extends FormRequest
 ```
 
 ### Authorization Policies
+
 ```php
 // app/Policies/SitePolicy.php
 class SitePolicy
@@ -259,6 +270,7 @@ Gate::authorize('update', $site);
 ```
 
 ### Rate Limiting
+
 ```php
 // routes/web.php
 Route::middleware(['throttle:api'])->group(function () {
@@ -276,6 +288,7 @@ RateLimiter::for('api', function (Request $request) {
 ## 🧪 Testing Helpers
 
 ### Test Traits
+
 ```php
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -287,6 +300,7 @@ class SiteTest extends TestCase
 ```
 
 ### Factories
+
 ```php
 // database/factories/SiteFactory.php
 class SiteFactory extends Factory
@@ -315,6 +329,7 @@ Site::factory()
 ```
 
 ### Mocking
+
 ```php
 $this->mock(AnalyzerService::class, function ($mock) {
     $mock->shouldReceive('analyze')

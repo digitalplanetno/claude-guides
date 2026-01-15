@@ -21,7 +21,7 @@
 
 ## 📁 Structure
 
-```
+```text
 app/
 ├── (auth)/            # Login, register
 ├── (dashboard)/       # Protected routes
@@ -33,7 +33,7 @@ lib/
 ├── actions/           # Server Actions
 ├── db/prisma.ts       # Prisma client
 └── validations/       # Zod schemas
-```
+```text
 
 ---
 
@@ -43,7 +43,7 @@ lib/
 pnpm dev               # Dev server
 pnpm test              # Tests
 pnpm prisma studio     # DB GUI
-```
+```text
 
 ---
 
@@ -56,7 +56,7 @@ const key = process.env.API_KEY; // Exposed!
 
 // ✅ Server-only
 const key = process.env.API_KEY; // Safe in Server Component
-```
+```text
 
 ---
 

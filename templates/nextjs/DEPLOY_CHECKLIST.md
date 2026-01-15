@@ -1,6 +1,7 @@
 # Deploy Checklist — Next.js Template
 
 ## Цель
+
 Комплексная проверка перед деплоем Next.js приложения. Действуй как Senior DevOps Engineer.
 
 ---
@@ -57,23 +58,26 @@ fi
 
 echo ""
 echo "Ready to deploy!"
-```
+```text
 
 ---
 
 ## 0.2 PROJECT SPECIFICS — [Project Name]
 
 **Deployment target:**
+
 - **Platform**: [Vercel / Server / Docker]
 - **URL**: [https://...]
 - **Region**: [eu-central-1 / etc]
 
 **Database:**
+
 - **Type**: [MySQL / PostgreSQL / SQLite]
 - **Host**: [host]
 - **Connection**: см. `DATABASE_URL` в env
 
 **Важные переменные:**
+
 - `DATABASE_URL` — подключение к БД
 - `NEXTAUTH_SECRET` — секрет для auth
 - `NEXTAUTH_URL` — URL приложения
@@ -99,7 +103,7 @@ echo "Ready to deploy!"
 grep -rn "console.log" app/ components/ lib/ --include="*.ts" --include="*.tsx"
 grep -rn "console.error" app/ components/ lib/ --include="*.ts" --include="*.tsx"
 grep -rn "debugger" app/ components/ lib/ --include="*.ts" --include="*.tsx"
-```
+```text
 
 - [ ] Нет лишних `console.log()`
 - [ ] Нет `debugger` statements
@@ -109,7 +113,7 @@ grep -rn "debugger" app/ components/ lib/ --include="*.ts" --include="*.tsx"
 
 ```bash
 grep -rn "TODO\|FIXME" app/ components/ lib/ --include="*.ts" --include="*.tsx"
-```
+```text
 
 - [ ] Критичные TODO решены
 - [ ] Нет blocking FIXME
@@ -127,7 +131,7 @@ grep -rn "TODO\|FIXME" app/ components/ lib/ --include="*.ts" --include="*.tsx"
 
 ```bash
 npm run build
-```
+```text
 
 - [ ] Build проходит без ошибок
 - [ ] Нет TypeScript errors
@@ -137,7 +141,7 @@ npm run build
 
 ```bash
 npm run lint
-```
+```text
 
 - [ ] Нет ESLint errors
 - [ ] Warnings проверены
@@ -146,7 +150,7 @@ npm run lint
 
 ```bash
 npm test
-```
+```text
 
 - [ ] Все тесты проходят
 - [ ] Критичный функционал покрыт
@@ -167,7 +171,7 @@ npx drizzle-kit push
 
 # Raw SQL
 # Check pending migrations
-```
+```text
 
 - [ ] Все миграции применены
 - [ ] Нет pending migrations
@@ -181,7 +185,7 @@ mysqldump -u USER -p DATABASE > backup_$(date +%Y%m%d).sql
 
 # PostgreSQL
 pg_dump DATABASE > backup_$(date +%Y%m%d).sql
-```
+```text
 
 - [ ] Backup создан перед миграциями
 - [ ] Backup проверен на восстановимость
@@ -203,7 +207,7 @@ DATABASE_URL=mysql://user:password@host:3306/db
 
 # API Keys (на сервере, не в NEXT_PUBLIC_)
 ANTHROPIC_API_KEY=sk-...
-```
+```text
 
 - [ ] `NODE_ENV=production`
 - [ ] `NEXTAUTH_URL` — правильный production URL
@@ -218,7 +222,7 @@ grep -rn "sk-\|password=\|secret=" app/ lib/ components/ --include="*.ts" --incl
 
 # Проверить что secrets не в NEXT_PUBLIC_
 grep -rn "NEXT_PUBLIC_.*KEY\|NEXT_PUBLIC_.*SECRET" .env*
-```
+```text
 
 - [ ] Нет hardcoded secrets
 - [ ] API keys не в `NEXT_PUBLIC_`
@@ -229,7 +233,7 @@ grep -rn "NEXT_PUBLIC_.*KEY\|NEXT_PUBLIC_.*SECRET" .env*
 ```bash
 # Сравнить .env.example с production
 diff .env.example .env.production
-```
+```text
 
 - [ ] Все переменные из `.env.example` установлены
 - [ ] Нет development значений в production
@@ -244,7 +248,7 @@ diff .env.example .env.production
 rm -rf .next node_modules
 npm ci
 npm run build
-```
+```text
 
 - [ ] `npm ci` успешен
 - [ ] `npm run build` успешен
@@ -258,7 +262,7 @@ ANALYZE=true npm run build
 
 # Проверить размер
 ls -la .next/static/chunks/
-```
+```text
 
 - [ ] Main bundle < 200KB (gzipped)
 - [ ] Нет дублирования библиотек
@@ -273,7 +277,7 @@ ls -la .next/static/chunks/
 ```bash
 npm audit
 npm audit --production
-```
+```text
 
 - [ ] Нет critical уязвимостей
 - [ ] High уязвимости проверены
@@ -297,7 +301,7 @@ const nextConfig = {
     ];
   },
 };
-```
+```text
 
 - [ ] Security headers настроены
 - [ ] HTTPS обязателен
@@ -320,7 +324,7 @@ vercel --prod
 
 # Или через Git push
 git push origin main
-```
+```text
 
 - [ ] Vercel project настроен
 - [ ] Environment variables в Vercel dashboard
@@ -359,7 +363,7 @@ echo "Deployment completed!"
 # 6. Health check
 sleep 5
 curl -s https://your-domain.com/api/health | grep -q "ok" && echo "✅ Health check passed" || echo "❌ Health check failed"
-```
+```text
 
 ---
 
@@ -371,9 +375,10 @@ curl -s https://your-domain.com/api/health | grep -q "ok" && echo "✅ Health ch
 # Базовые проверки
 curl -I https://your-domain.com
 curl -I https://your-domain.com/api/health
-```
+```text
 
 Проверь вручную:
+
 - [ ] Homepage загружается
 - [ ] Логин работает
 - [ ] Основной функционал работает
@@ -393,7 +398,7 @@ npx lighthouse https://your-domain.com --view
 
 # TTFB check
 curl -w "TTFB: %{time_starttransfer}s\n" -o /dev/null -s https://your-domain.com
-```
+```text
 
 - [ ] LCP < 2.5s
 - [ ] TTFB < 800ms
@@ -410,7 +415,7 @@ curl -w "TTFB: %{time_starttransfer}s\n" -o /dev/null -s https://your-domain.com
 
 # Через CLI
 vercel rollback
-```
+```text
 
 ### 9.2 Server Rollback
 
@@ -429,7 +434,7 @@ npm run build
 
 # Restart
 pm2 restart app
-```
+```text
 
 ### 9.3 Database Rollback
 
@@ -439,11 +444,12 @@ npx prisma migrate reset  # ОСТОРОЖНО! Удаляет данные
 
 # Восстановление из backup
 mysql -u USER -p DATABASE < backup_YYYYMMDD.sql
-```
+```text
 
 ### 9.4 Rollback Triggers
 
 Откатывай если:
+
 - Error rate > 5%
 - Critical функционал не работает
 - Performance деградировал > 50%
@@ -463,7 +469,8 @@ mysql -u USER -p DATABASE < backup_YYYYMMDD.sql
 | "Большой bundle" | Если < 500KB — приемлемо |
 
 **Градация готовности:**
-```
+
+```text
 READY (95-100%) — Деплой сейчас
    - Build проходит
    - Критичный функционал работает
@@ -477,7 +484,7 @@ NOT READY (<70%) — Блокируй
    - Build падает
    - Security vulnerabilities
    - Критичный функционал сломан
-```
+```text
 
 ---
 
@@ -511,7 +518,7 @@ Version: [git commit hash]
 - [ ] Monitor for 24h
 - [ ] Check error rate
 - [ ] Verify performance
-```
+```text
 
 ---
 

@@ -37,7 +37,7 @@
 
 ## 📁 Project Structure
 
-```
+```text
 app/                          # App Router (Next.js 13+)
 ├── (auth)/                   # Route group — auth pages
 ├── (dashboard)/              # Route group — protected
@@ -58,7 +58,7 @@ lib/
 └── types/                    # TypeScript types
 
 hooks/                        # Custom React hooks
-```
+```text
 
 ---
 
@@ -79,13 +79,14 @@ pnpm e2e                      # Playwright E2E
 # Quality
 pnpm lint                     # ESLint
 pnpm typecheck                # TypeScript
-```
+```text
 
 ---
 
 ## 🔒 Security Rules (НИКОГДА НЕ НАРУШАЙ!)
 
 ### 1. Server vs Client
+
 ```tsx
 // ❌ secrets в client component!
 'use client'
@@ -93,9 +94,10 @@ const API_KEY = process.env.API_KEY;
 
 // ✅ secrets только на сервере
 const API_KEY = process.env.API_KEY;
-```
+```text
 
 ### 2. API Validation
+
 ```typescript
 // ❌ доверять без валидации
 const body = await request.json();
@@ -104,14 +106,15 @@ await prisma.user.create({ data: body });
 // ✅ Zod validation
 const validated = CreateUserSchema.parse(body);
 await prisma.user.create({ data: validated });
-```
+```text
 
 ### 3. Auth Check
+
 ```typescript
 // ✅ ВСЕГДА проверяй auth
 const session = await auth();
 if (!session) return new Response('Unauthorized', { status: 401 });
-```
+```text
 
 ---
 

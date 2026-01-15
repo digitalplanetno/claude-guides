@@ -1,6 +1,7 @@
 # Code Review — Next.js Template
 
 ## Цель
+
 Комплексный code review Next.js приложения. Действуй как Senior Tech Lead.
 
 ---
@@ -47,21 +48,24 @@ TODOS=$(grep -rn "TODO\|FIXME" app/ components/ lib/ --include="*.ts" --include=
 echo "ℹ️  TODO/FIXME: $TODOS comments"
 
 echo "Done!"
-```
+```text
 
 ---
 
 ## 0.2 PROJECT SPECIFICS — [Project Name]
 
 **Принятые решения (не нужно исправлять):**
+
 - [Осознанные architectural decisions]
 
 **Ключевые файлы для review:**
+
 - `app/` — страницы и API routes
 - `components/` — UI компоненты
 - `lib/` — утилиты и хелперы
 
 **Паттерны проекта:**
+
 - Server Components по умолчанию
 - 'use client' только для интерактивности
 - Zod для валидации
@@ -87,7 +91,7 @@ echo "Done!"
 ```bash
 git diff --name-only HEAD~5
 git status --short
-```
+```text
 
 - [ ] Какие файлы изменены
 - [ ] Какие новые файлы созданы
@@ -145,7 +149,7 @@ export function ProjectFilters() {
   const [filter, setFilter] = useState('all');
   return <FilterButton onFilter={setFilter} />;
 }
-```
+```text
 
 - [ ] Client boundary максимально низко в дереве
 - [ ] 'use client' только где реально нужна интерактивность
@@ -176,7 +180,7 @@ export async function POST(request: Request) {
   const project = await createProject(parsed.data);
   return Response.json(project);
 }
-```
+```text
 
 - [ ] Route handlers тонкие
 - [ ] Бизнес-логика в lib/services/
@@ -184,7 +188,7 @@ export async function POST(request: Request) {
 
 ### 2.3 File Structure
 
-```
+```text
 app/
 ├── (auth)/
 │   ├── login/
@@ -208,7 +212,7 @@ lib/
 ├── schemas/      # Zod schemas
 ├── db/           # Database utilities
 └── utils/        # Helpers
-```
+```text
 
 - [ ] Файлы в правильных директориях
 - [ ] Нет God-компонентов (> 300 строк)
@@ -242,7 +246,7 @@ function process(input: ProcessInput): ProcessResult {
 const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
   console.log(e.currentTarget.id);
 };
-```
+```text
 
 - [ ] Нет `any` без явной необходимости
 - [ ] Все функции типизированы
@@ -258,7 +262,7 @@ const res = processStuff(d);
 // ✅ Хорошо
 const projects = await fetchProjects();
 const processedProjects = processProjects(projects);
-```
+```text
 
 - [ ] **Переменные** — существительные, camelCase: `projectList`, `userData`
 - [ ] **Функции** — глаголы, camelCase: `getProjects()`, `processData()`
@@ -313,7 +317,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </div>
   );
 }
-```
+```text
 
 - [ ] Логика вынесена в custom hooks
 - [ ] Props типизированы через interface
@@ -337,7 +341,7 @@ export function formatDate(date: Date, locale = 'ru-RU'): string {
 
 // Использование
 import { formatDate } from '@/lib/utils/date';
-```
+```text
 
 - [ ] Нет дублирующегося кода
 - [ ] Общие утилиты в lib/utils/
@@ -368,7 +372,7 @@ export default async function ProjectsPage() {
   const projects = await getProjects();  // Прямой запрос к БД
   return <ProjectList projects={projects} />;
 }
-```
+```text
 
 - [ ] Data fetching в Server Components
 - [ ] Нет useEffect для начальной загрузки
@@ -416,7 +420,7 @@ export async function POST(request: Request) {
     );
   }
 }
-```
+```text
 
 - [ ] Try-catch в API routes
 - [ ] Специфичные error responses
@@ -447,7 +451,7 @@ export default function Error({
     </div>
   );
 }
-```
+```text
 
 - [ ] loading.tsx для Suspense
 - [ ] error.tsx для error boundaries
@@ -539,11 +543,13 @@ export async function POST(request: Request) {
   const data = await request.json();
   // ...
 }
-```
+```text
 
 ## Good Practices Found
+
 - [Что хорошо]
-```
+
+```text
 
 ---
 

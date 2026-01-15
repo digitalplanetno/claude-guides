@@ -12,11 +12,13 @@ This skill provides Tailwind CSS expertise including utility-first patterns, con
 ## 🎯 Core Principles
 
 ### Utility-First Mindset
+
 - **Check before custom:** Before writing custom CSS, ask: "Is there a utility for this?"
 - **Composition:** Build complex components by composing small utilities
 - **Readability:** Code must be instantly readable by other developers
 
 ### When to Use Custom CSS
+
 | Scenario | Approach |
 |----------|----------|
 | One-off styles | Utility classes |
@@ -57,6 +59,7 @@ Sort classes in logical groups (Box Model order):
 ```
 
 ### Quick Reference
+
 | Group | Examples |
 |-------|----------|
 | Layout | `flex`, `grid`, `block`, `hidden`, `absolute`, `relative` |
@@ -71,6 +74,7 @@ Sort classes in logical groups (Box Model order):
 ## 🔧 Common Patterns Cheatsheet
 
 ### Flexbox
+
 ```tsx
 // Center everything
 <div className="flex items-center justify-center">
@@ -86,6 +90,7 @@ Sort classes in logical groups (Box Model order):
 ```
 
 ### Grid
+
 ```tsx
 // Basic grid
 <div className="grid grid-cols-3 gap-4">
@@ -101,6 +106,7 @@ Sort classes in logical groups (Box Model order):
 ```
 
 ### Sizing
+
 ```tsx
 // Square shorthand
 <div className="size-10">  {/* = w-10 h-10 */}
@@ -117,6 +123,7 @@ Sort classes in logical groups (Box Model order):
 ```
 
 ### Colors & Opacity
+
 ```tsx
 // Modern opacity syntax (preferred)
 <div className="bg-primary/10">
@@ -130,6 +137,7 @@ Sort classes in logical groups (Box Model order):
 ## 📱 Responsive Design (Mobile-First)
 
 ### Breakpoints
+
 | Prefix | Min-width | Target |
 |--------|-----------|--------|
 | (none) | 0px | Mobile (default) |
@@ -140,6 +148,7 @@ Sort classes in logical groups (Box Model order):
 | `2xl:` | 1536px | Extra large |
 
 ### Patterns
+
 ```tsx
 // Stack on mobile, row on desktop
 <div className="flex flex-col md:flex-row gap-4">
@@ -155,6 +164,7 @@ Sort classes in logical groups (Box Model order):
 ```
 
 ### Mobile-First Approach
+
 ```tsx
 // ✅ Start with mobile, add breakpoints for larger
 <div className="p-4 md:p-6 lg:p-8">
@@ -168,6 +178,7 @@ Sort classes in logical groups (Box Model order):
 ## ♿ Accessibility
 
 ### Focus States
+
 ```tsx
 // Always include focus-visible for keyboard users
 <button className="
@@ -184,6 +195,7 @@ Sort classes in logical groups (Box Model order):
 ```
 
 ### Icon Buttons
+
 ```tsx
 // Always provide accessible name
 <button className="p-2" aria-label="Close menu">
@@ -193,6 +205,7 @@ Sort classes in logical groups (Box Model order):
 ```
 
 ### Custom Interactive Elements
+
 ```tsx
 // If using div as button
 <div
@@ -209,6 +222,7 @@ Sort classes in logical groups (Box Model order):
 ## ⚠️ Prohibited Patterns
 
 ### Avoid `@apply` (except globals)
+
 ```css
 /* ❌ Don't use @apply for components */
 .btn-primary {
@@ -227,6 +241,7 @@ export function Button({ children }) {
 ```
 
 ### Avoid Unnecessary Arbitrary Values
+
 ```tsx
 // ❌ Arbitrary when standard exists
 <div className="top-[12px]">
@@ -239,6 +254,7 @@ export function Button({ children }) {
 ```
 
 ### Conflicting Classes
+
 ```tsx
 // ❌ Never combine conflicting utilities
 <div className="flex hidden">
@@ -249,6 +265,7 @@ export function Button({ children }) {
 ```
 
 ### Hardcoded Colors (Theme Breaking)
+
 ```tsx
 // ❌ Breaks dark mode
 <div className="bg-white text-black">
@@ -262,6 +279,7 @@ export function Button({ children }) {
 ## 🎨 Theme Integration
 
 ### CSS Variables Pattern
+
 ```tsx
 // Use semantic color names
 <div className="bg-background">      {/* --background */}
@@ -272,6 +290,7 @@ export function Button({ children }) {
 ```
 
 ### Dark Mode
+
 ```tsx
 // Automatic via CSS variables (preferred)
 <div className="bg-background">  {/* Switches automatically */}
@@ -285,6 +304,7 @@ export function Button({ children }) {
 ## 🔍 Debugging Tips
 
 ### Visual Debugging
+
 ```tsx
 // Temporarily add outline to see boundaries
 <div className="outline outline-red-500">
@@ -294,6 +314,7 @@ export function Button({ children }) {
 ```
 
 ### Common Issues
+
 | Problem | Solution |
 |---------|----------|
 | Flex item not shrinking | Add `min-w-0` or `overflow-hidden` |

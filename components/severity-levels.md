@@ -15,6 +15,7 @@
 ## Когда использовать
 
 ### 🔴 CRITICAL
+
 - SQL Injection без auth
 - Remote Code Execution
 - Authentication bypass
@@ -22,6 +23,7 @@
 - Data corruption/loss
 
 ### 🟠 HIGH
+
 - SQL Injection с auth required
 - XSS в authenticated area
 - CSRF на критичных операциях
@@ -29,6 +31,7 @@
 - Insecure file upload
 
 ### 🟡 MEDIUM
+
 - Information disclosure (версии, stack traces)
 - Missing rate limiting
 - Weak password policy
@@ -36,6 +39,7 @@
 - Missing security headers
 
 ### 🔵 LOW
+
 - Missing HSTS
 - Verbose error messages (non-sensitive)
 - Outdated dependencies (no CVE)
@@ -43,6 +47,7 @@
 - Documentation gaps
 
 ### ⚪ INFO
+
 - Informational findings
 - Design decisions
 - Recommendations for future

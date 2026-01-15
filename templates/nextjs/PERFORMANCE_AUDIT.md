@@ -1,6 +1,7 @@
 # Performance Audit — Next.js Template
 
 ## Цель
+
 Комплексный аудит производительности Next.js приложения. Действуй как Senior Performance Engineer.
 
 ---
@@ -59,12 +60,14 @@ echo "Done!"
 ## 0.2 PROJECT SPECIFICS — [Project Name]
 
 **Что уже оптимизировано:**
+
 - [ ] Bundle analyzer — `@next/bundle-analyzer`
 - [ ] Database connection pooling
 - [ ] Streaming responses
 - [ ] Dynamic imports
 
 **Команда для bundle analysis:**
+
 ```bash
 ANALYZE=true npm run build
 ```

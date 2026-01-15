@@ -1,17 +1,19 @@
 # /doc — Generate Documentation
 
 ## Purpose
+
 Generate documentation for a file, function, class, or module.
 
 ---
 
 ## Usage
 
-```
+```text
 /doc <target>
-```
+```text
 
 **Examples:**
+
 - `/doc app/Services/PaymentService.php` — Document entire file
 - `/doc UserController::store` — Document specific method
 - `/doc src/lib/utils.ts` — Document TypeScript module
@@ -51,7 +53,7 @@ Generate documentation for a file, function, class, or module.
 \`\`\`php
 $result = functionName('value', 123);
 \`\`\`
-```
+```text
 
 ### For Classes
 
@@ -77,7 +79,7 @@ $result = functionName('value', 123);
 $instance = new ClassName($dep1, $dep2);
 $instance->method1();
 \`\`\`
-```
+```text
 
 ### For Files/Modules
 
@@ -99,7 +101,7 @@ $instance->method1();
 **Architecture Notes:**
 - Key design decisions
 - Important patterns used
-```
+```text
 
 ---
 

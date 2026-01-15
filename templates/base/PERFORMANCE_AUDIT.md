@@ -1,6 +1,7 @@
 # Performance Audit — Base Template
 
 ## Цель
+
 Комплексный аудит производительности веб-приложения. Действуй как Senior Performance Engineer.
 
 ---
@@ -20,11 +21,13 @@
 ## 0.1 PROJECT SPECIFICS — [Project Name]
 
 **Текущие метрики:**
+
 - Homepage load time: [X]ms
 - Bundle size: [X]KB
 - Database queries per page: [X]
 
 **Что уже оптимизировано:**
+
 - [ ] Caching: [что закэшировано]
 - [ ] CDN: [используется ли]
 - [ ] Lazy loading: [где]
@@ -45,21 +48,24 @@
 ## 1. DATABASE PERFORMANCE
 
 ### 1.1 N+1 Queries
-```
+
+```text
 ❌ Плохо: 1 query + N queries для связанных данных
 ✅ Хорошо: 1-2 queries с eager loading
-```
+```text
 
 - [ ] Нет N+1 паттернов
 - [ ] Eager loading используется
 - [ ] Joins вместо множественных запросов
 
 ### 1.2 Query Optimization
+
 - [ ] Индексы на часто используемых колонках
 - [ ] Индексы на foreign keys
 - [ ] Нет SELECT * где не нужно
 
 ### 1.3 Slow Queries
+
 - [ ] Нет queries > 100ms
 - [ ] EXPLAIN для сложных queries
 - [ ] Pagination для больших datasets
@@ -69,16 +75,19 @@
 ## 2. CACHING
 
 ### 2.1 Application Cache
+
 - [ ] Часто читаемые данные кэшируются
 - [ ] Cache invalidation настроен
 - [ ] TTL разумный
 
 ### 2.2 HTTP Cache
+
 - [ ] Static assets имеют cache headers
 - [ ] ETags или Last-Modified
 - [ ] CDN для статики
 
 ### 2.3 Query Cache
+
 - [ ] Тяжёлые queries кэшируются
 - [ ] Cache key включает параметры
 
@@ -87,21 +96,25 @@
 ## 3. FRONTEND PERFORMANCE
 
 ### 3.1 Bundle Size
+
 - [ ] JavaScript < 500KB gzipped
 - [ ] CSS < 100KB gzipped
 - [ ] Code splitting используется
 
 ### 3.2 Loading Strategy
+
 - [ ] Critical CSS inline
 - [ ] Non-critical CSS lazy
 - [ ] JavaScript defer/async
 
 ### 3.3 Images
+
 - [ ] Оптимизированы (WebP, AVIF)
 - [ ] Lazy loading
 - [ ] Правильные размеры (srcset)
 
 ### 3.4 Core Web Vitals
+
 - [ ] LCP < 2.5s
 - [ ] FID < 100ms
 - [ ] CLS < 0.1
@@ -111,15 +124,18 @@
 ## 4. API PERFORMANCE
 
 ### 4.1 Response Time
+
 - [ ] API endpoints < 500ms
 - [ ] Нет blocking operations в handlers
 
 ### 4.2 Payload Size
+
 - [ ] Pagination для списков
 - [ ] Только нужные поля в response
 - [ ] Gzip compression
 
 ### 4.3 Rate Limiting
+
 - [ ] Protection от abuse
 - [ ] Graceful degradation
 
@@ -128,11 +144,13 @@
 ## 5. BACKGROUND JOBS
 
 ### 5.1 Queue Usage
+
 - [ ] Тяжёлые операции в queue
 - [ ] Email отправка async
 - [ ] File processing async
 
 ### 5.2 Job Configuration
+
 - [ ] Timeout настроен
 - [ ] Retry policy
 - [ ] Failed job handling
@@ -142,11 +160,13 @@
 ## 6. INFRASTRUCTURE
 
 ### 6.1 Server
+
 - [ ] Достаточно RAM
 - [ ] CPU не перегружен
 - [ ] Disk I/O в норме
 
 ### 6.2 Database
+
 - [ ] Connection pooling
 - [ ] Read replicas (если нужно)
 - [ ] Query monitoring
@@ -165,11 +185,13 @@
 ## 8. САМОПРОВЕРКА
 
 **НЕ оптимизируй:**
+
 - Код который редко выполняется
 - Микросекунды на горячем пути
 - Premature optimization
 
 **Фокусируйся на:**
+
 - Частые операции
 - User-facing performance
 - Database bottlenecks
@@ -200,7 +222,7 @@
 
 ## Quick Wins
 [Быстрые улучшения...]
-```
+```text
 
 ---
 

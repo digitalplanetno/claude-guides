@@ -1,6 +1,7 @@
 # Security Audit — Next.js Template
 
 ## Цель
+
 Комплексный аудит безопасности Next.js приложения. Действуй как Senior Security Engineer.
 
 ---
@@ -15,7 +16,7 @@
 | 4 | npm audit | `npm audit --production` | No critical/high |
 | 5 | Env exposure | `grep -rn "NEXT_PUBLIC_.*KEY\|NEXT_PUBLIC_.*SECRET" .env*` | Пусто |
 
-**Если все 5 = OK → Базовый уровень безопасности OK**
+Если все 5 = OK → Базовый уровень безопасности OK.
 
 ---
 
@@ -60,12 +61,14 @@ echo "Done!"
 **Заполни перед аудитом:**
 
 **Что уже реализовано:**
+
 - [ ] Authentication: [NextAuth / custom / none]
 - [ ] Authorization: [middleware / API checks]
 - [ ] Input validation: [Zod / yup / other]
 - [ ] Database: [Prisma / Drizzle / raw SQL / MySQL]
 
 **Публичные endpoints (by design):**
+
 - `/api/health` — health check
 - `/api/auth/*` — NextAuth endpoints (если используется)
 - `/api/webhooks/*` — webhooks (проверь signature!)

@@ -1,17 +1,19 @@
 # /test — Write Tests
 
 ## Purpose
+
 Write tests for code, functions, or features.
 
 ---
 
 ## Usage
 
-```
+```text
 /test <target> [--type=unit|integration|e2e]
-```
+```text
 
 **Examples:**
+
 - `/test app/Services/PaymentService.php` — Unit tests for service
 - `/test UserController --type=integration` — Integration tests
 - `/test checkout flow --type=e2e` — E2E tests
@@ -78,7 +80,7 @@ class PaymentServiceTest extends TestCase
         $this->service->processPayment($user, 100.00);
     }
 }
-```
+```text
 
 ### Next.js (Vitest/Jest)
 
@@ -127,7 +129,7 @@ describe('PaymentService', () => {
     await expect(processPayment('1', 100)).rejects.toThrow('Insufficient balance');
   });
 });
-```
+```text
 
 ---
 
@@ -181,7 +183,7 @@ php artisan test --filter=PaymentServiceTest
 # Next.js
 npm test -- payment.test.ts
 \`\`\`
-```
+```text
 
 ---
 

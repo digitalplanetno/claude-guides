@@ -11,7 +11,7 @@
 If you discover a security vulnerability in the templates or scripts, please report it by:
 
 1. **DO NOT** create a public GitHub issue
-2. Email: security@digitalplanet.no (or create a private security advisory)
+2. Email: <security@digitalplanet.no> (or create a private security advisory)
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce
@@ -27,6 +27,7 @@ If you discover a security vulnerability in the templates or scripts, please rep
 ## Scope
 
 This security policy covers:
+
 - Shell scripts (`scripts/*.sh`)
 - Template content that could lead to insecure code patterns
 - CI/CD configurations

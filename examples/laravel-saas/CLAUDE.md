@@ -29,7 +29,7 @@
 
 ## 📁 Project Structure
 
-```
+```text
 app/
 ├── Actions/           # CreateSite, RunCheck, etc.
 ├── Http/Controllers/  # Thin, delegate to Actions
@@ -44,7 +44,7 @@ resources/js/
 │   ├── UI/            # Button, Modal, Card
 │   └── Sites/         # SiteCard, CheckHistory
 └── Composables/       # useSite, useTeam
-```
+```text
 
 ---
 
@@ -60,7 +60,7 @@ php artisan test
 
 # Queue
 php artisan queue:work
-```
+```text
 
 ---
 
@@ -74,7 +74,7 @@ protected $guarded = [];
 // ✅ ALWAYS
 $request->validated();
 $this->authorize('update', $site);
-```
+```text
 
 ---
 

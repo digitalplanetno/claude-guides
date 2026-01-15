@@ -1,17 +1,19 @@
 # /handoff — Prepare Task Handoff
 
 ## Purpose
+
 Create comprehensive handoff documentation for another developer or AI session.
 
 ---
 
 ## Usage
 
-```
+```text
 /handoff [task name]
-```
+```text
 
 **Examples:**
+
 - `/handoff OAuth implementation`
 - `/handoff bug fix #123`
 - `/handoff refactoring project`
@@ -110,7 +112,7 @@ npm run dev
 ## Contacts
 - **Original dev:** [Name]
 - **Slack:** #project-channel
-```
+```text
 
 ---
 
