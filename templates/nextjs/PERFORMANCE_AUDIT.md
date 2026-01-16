@@ -338,7 +338,7 @@ export async function POST(request: Request) {
   const { prompt } = await request.json();
 
   const response = await anthropic.messages.create({
-    model: 'claude-3-sonnet',
+    model: 'claude-sonnet-4-5-20250929',
     messages: [{ role: 'user', content: prompt }],
   });
 
@@ -353,7 +353,7 @@ export async function POST(request: Request) {
   const { prompt } = await request.json();
 
   const result = await streamText({
-    model: anthropic('claude-3-sonnet'),
+    model: anthropic('claude-sonnet-4-5-20250929'),
     prompt,
   });
 
@@ -371,13 +371,13 @@ export async function POST(request: Request) {
 function selectModel(task: string): string {
   switch (task) {
     case 'simple-edit':
-      return 'claude-3-haiku';  // Дешёвый
+      return 'claude-haiku-4-5-20251001';  // Дешёвый
     case 'code-generation':
-      return 'claude-3-sonnet';  // Баланс
+      return 'claude-sonnet-4-5-20250929';  // Баланс
     case 'complex-analysis':
-      return 'claude-3-opus';  // Умный
+      return 'claude-opus-4-5-20251101';  // Умный
     default:
-      return 'claude-3-sonnet';
+      return 'claude-sonnet-4-5-20250929';
   }
 }
 ```

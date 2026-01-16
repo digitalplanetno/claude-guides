@@ -180,7 +180,7 @@ const RequestSchema = z.object({
   prompt: z.string().min(1).max(10000),
   projectId: z.string().uuid(),
   options: z.object({
-    model: z.enum(['gpt-4', 'claude-3']).optional(),
+    model: z.enum(['gpt-4', 'claude-sonnet-4-5-20250929']).optional(),
   }).optional(),
 });
 
