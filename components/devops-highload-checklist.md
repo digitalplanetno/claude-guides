@@ -22,12 +22,13 @@ redis-cli CONFIG REWRITE
 ```
 
 | Policy | Для чего | Поведение при переполнении |
-|--------|----------|----------------------------|
+| ------ | -------- | -------------------------- |
 | `noeviction` | Очереди | Ошибка записи (данные сохранены) |
 | `volatile-lru` | Сессии | Удаляет только ключи с TTL |
 | `allkeys-lru` | Кэш | Удаляет любые "старые" ключи |
 
 **Идеальный сетап:** Два инстанса Redis:
+
 - `redis:6379` — очереди (`noeviction`)
 - `redis:6380` — кэш (`allkeys-lru`)
 
@@ -53,12 +54,13 @@ command=php /var/www/app/artisan queue:work redis \
 ```
 
 | Флаг | Значение | Описание |
-|------|----------|----------|
+| ---- | -------- | -------- |
 | `--max-jobs=N` | 50-200 | Перезапуск после N задач (сброс утечек) |
 | `--max-time=N` | 1800-3600 | Жёсткий перезапуск через N секунд |
 | `--timeout=N` | 60-300 | Таймаут одной задачи |
 
 **Backup cron:** Оставь cron-перезапуск как страховку на случай deadlock:
+
 ```bash
 @reboot sleep 30 && /usr/bin/supervisorctl restart all
 ```
@@ -71,7 +73,7 @@ command=php /var/www/app/artisan queue:work redis \
 
 **Правило:** `External Service < Job Timeout < Supervisor stopwaitsecs`
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │  Playwright: 60s                                            │
 │  ├── Laravel Job $timeout: 120s (больше Playwright)         │
@@ -98,14 +100,14 @@ class TakeScreenshotJob implements ShouldQueue
 
 **Проблема:** При падении PHP-воркера процессы Chrome остаются висеть и едят память.
 
-**Решение 1: Cron**
+#### Решение 1: Cron
 
 ```bash
 # Убивать Chrome-процессы старше 30 минут
 */10 * * * * /usr/bin/pkill -9 -f "chrome.*--type=renderer" --older 1800 2>/dev/null || true
 ```
 
-**Решение 2: Docker с dumb-init**
+#### Решение 2: Docker с dumb-init
 
 ```dockerfile
 FROM node:20-slim
@@ -205,7 +207,7 @@ try {
 }
 ```
 
-Открыть trace: https://trace.playwright.dev/
+Открыть trace: <https://trace.playwright.dev/>
 
 **Важно:** Ограничить хранение traces (7 дней max), они тяжёлые.
 
@@ -233,14 +235,14 @@ Storage::disk('s3')->put("screenshots/{$id}.webp", $image);
 
 **Проблема:** Скриншоты забивают диск, `inode` заканчиваются.
 
-**Решение A: S3/R2 (рекомендуется для >1000 скриншотов/день)**
+#### Решение A: S3/R2 (рекомендуется для >1000 скриншотов/день)
 
 ```php
 // Сразу в S3, без локального хранения
 Storage::disk('s3')->put("screenshots/{$id}.webp", $imageData);
 ```
 
-**Решение B: Локально + cleanup (для малых объёмов)**
+#### Решение B: Локально + cleanup (для малых объёмов)
 
 ```bash
 # Удалять скриншоты старше 30 дней
@@ -368,7 +370,7 @@ Route::get('/health', function () {
 ### 17. Alert Thresholds
 
 | Метрика | Warning | Critical |
-|---------|---------|----------|
+| ------- | ------- | -------- |
 | RAM usage | > 80% | > 90% |
 | Disk free | < 20GB | < 10GB |
 | Queue size | > 5000 | > 10000 |
@@ -522,7 +524,7 @@ df -h /
 ## Типичные проблемы и решения
 
 | Симптом | Причина | Решение |
-|---------|---------|---------|
+| ------- | ------- | ------- |
 | RAM 100%, сервер не отвечает | Redis/Chrome без лимита | maxmemory + mem_limit |
 | Задачи пропадают | allkeys-lru | noeviction |
 | Воркеры падают без логов | stopwaitsecs < timeout | Увеличить stopwaitsecs |
@@ -540,6 +542,7 @@ df -h /
 ### Laravel Horizon вместо Supervisor
 
 Для Laravel-проектов Horizon даёт:
+
 - Web-dashboard для очередей
 - Метрики из коробки
 - Auto-balancing воркеров

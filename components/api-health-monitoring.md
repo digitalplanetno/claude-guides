@@ -16,7 +16,7 @@
 ## Ключевые компоненты
 
 | Компонент | Назначение |
-|-----------|------------|
+| --------- | ---------- |
 | `ApiHealthService` | Централизованный сервис мониторинга |
 | `recordError()` | Автодетект ошибок в catch блоках |
 | `checkHealth()` | Ручная проверка состояния API |
@@ -417,7 +417,7 @@ const getConfig = (status) => statusConfig[status] || statusConfig.error
 ## Статусы
 
 | Status | Значение | Действие |
-|--------|----------|----------|
+| ------ | -------- | -------- |
 | `ok` | API работает | - |
 | `no_credits` | Закончился баланс | Пополнить баланс |
 | `invalid_key` | Неверный API ключ | Проверить/обновить ключ в .env |
@@ -505,7 +505,8 @@ protected function saveStatus(string $api, array $status): array
 ```
 
 **.env:**
-```
+
+```bash
 SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX/YYY/ZZZ
 ```
 
@@ -517,36 +518,36 @@ SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX/YYY/ZZZ
 
 1. Добавь метод проверки в `ApiHealthService`:
 
-```php
-public function checkNewService(): array
-{
-    $apiKey = config('services.newservice.api_key');
+   ```php
+   public function checkNewService(): array
+   {
+       $apiKey = config('services.newservice.api_key');
 
-    if (empty($apiKey)) {
-        return ['status' => 'not_configured', 'message' => 'API key not set'];
-    }
+       if (empty($apiKey)) {
+           return ['status' => 'not_configured', 'message' => 'API key not set'];
+       }
 
-    try {
-        // Сделай минимальный запрос для проверки
-        $response = Http::timeout(10)
-            ->withHeaders(['Authorization' => "Bearer {$apiKey}"])
-            ->get('https://api.newservice.com/v1/account');
+       try {
+           // Сделай минимальный запрос для проверки
+           $response = Http::timeout(10)
+               ->withHeaders(['Authorization' => "Bearer {$apiKey}"])
+               ->get('https://api.newservice.com/v1/account');
 
-        if ($response->successful()) {
-            $this->markOk('newservice', 'Working');
-            return ['status' => 'ok', 'message' => 'Working', 'checked_at' => now()];
-        }
+           if ($response->successful()) {
+               $this->markOk('newservice', 'Working');
+               return ['status' => 'ok', 'message' => 'Working', 'checked_at' => now()];
+           }
 
-        $error = $response->json()['error'] ?? 'Unknown error';
-        $this->recordError('newservice', $error, $response->status());
-        return $this->getStatus('newservice');
+           $error = $response->json()['error'] ?? 'Unknown error';
+           $this->recordError('newservice', $error, $response->status());
+           return $this->getStatus('newservice');
 
-    } catch (\Exception $e) {
-        $this->recordError('newservice', $e->getMessage());
-        return $this->getStatus('newservice');
-    }
-}
-```
+       } catch (\Exception $e) {
+           $this->recordError('newservice', $e->getMessage());
+           return $this->getStatus('newservice');
+       }
+   }
+   ```
 
 2. Добавь `recordError()` в сервис, который использует этот API
 
