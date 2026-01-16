@@ -436,9 +436,78 @@ const getConfig = (status) => statusConfig[status] || statusConfig.error
 
 3. **TTL для статуса** — используй разумный TTL (5-15 минут), чтобы статус автоматически сбрасывался
 
-4. **Алерты** — для критичных API (платежи) настрой уведомления (email/Slack) при статусе `no_credits` или `invalid_key`
+4. **Slack алерты** — для критичных статусов (`no_credits`, `invalid_key`) отправляй в Slack
 
 5. **Ручная проверка** — всегда давай возможность проверить API вручную через кнопку на дашборде
+
+---
+
+## Slack Alerts
+
+Отправляй алерты в Slack при критических ошибках API:
+
+```php
+/**
+ * Send Slack alert for API issues
+ */
+protected function sendSlackAlert(string $api, array $status): void
+{
+    $webhookUrl = config('services.slack.webhook_url');
+    if (empty($webhookUrl)) {
+        return;
+    }
+
+    // Rate limit: only one alert per API per hour
+    $cacheKey = "slack_alert:{$api}:{$status['status']}";
+    if (Cache::has($cacheKey)) {
+        return;
+    }
+
+    $apiNames = [
+        'claude' => 'Claude API',
+        'stripe' => 'Stripe',
+        '2captcha' => '2Captcha',
+    ];
+
+    $emoji = match ($status['status']) {
+        'no_credits', 'no_balance' => ':money_with_wings:',
+        'invalid_key' => ':key:',
+        default => ':warning:',
+    };
+
+    $apiName = $apiNames[$api] ?? $api;
+    $message = $status['message'] ?? 'Unknown error';
+
+    Http::post($webhookUrl, [
+        'text' => "{$emoji} *{$apiName}*: {$message}",
+    ]);
+
+    // Set cooldown (1 hour)
+    Cache::put($cacheKey, true, 3600);
+}
+```
+
+**Вызов из saveStatus:**
+
+```php
+protected function saveStatus(string $api, array $status): array
+{
+    // ... save to cache ...
+
+    // Send Slack alert for critical statuses
+    $criticalStatuses = ['no_credits', 'no_balance', 'invalid_key'];
+    if (in_array($status['status'] ?? '', $criticalStatuses)) {
+        $this->sendSlackAlert($api, $status);
+    }
+
+    return $status;
+}
+```
+
+**.env:**
+```
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX/YYY/ZZZ
+```
 
 ---
 
