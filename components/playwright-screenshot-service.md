@@ -6,10 +6,10 @@
 
 ## Расположение файлов
 
-| Файл | Путь | Назначение |
-|------|------|-----------|
-| Docker Compose | `/opt/firecrawl/docker-compose.yaml` | Конфигурация контейнеров |
-| Environment | `/opt/firecrawl/.env` | Переменные окружения |
+| Файл           | Путь                                   | Назначение               |
+| -------------- | -------------------------------------- | ------------------------ |
+| Docker Compose | `/opt/firecrawl/docker-compose.yaml`   | Конфигурация контейнеров |
+| Environment    | `/opt/firecrawl/.env`                  | Переменные окружения     |
 
 ## Ключевые настройки
 
@@ -65,6 +65,7 @@ docker logs -f firecrawl-playwright-service-1
 Главный ограничитель — `maxConcurrentPages`. По умолчанию 10, что создаёт очередь даже при 100 воркерах.
 
 **Рекомендации:**
+
 - Увеличивать `CRAWL_CONCURRENT_REQUESTS` пропорционально количеству воркеров
 - Мониторить `activePages` в health endpoint
 - При `activePages == maxConcurrentPages` — увеличить лимит
@@ -95,6 +96,7 @@ sudo systemctl restart docker
 ### cURL error 52: Empty reply from server
 
 Playwright сервис перегружен или упал. Решение:
+
 - Перезапустить контейнер
 - Уменьшить `CRAWL_CONCURRENT_REQUESTS` или увеличить ресурсы
 

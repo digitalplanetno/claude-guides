@@ -65,6 +65,32 @@ Every audit template MUST include:
 - Include code examples with clear "bad" vs "good" patterns
 - Keep bash scripts shellcheck-compliant
 
+### Markdown Formatting (MANDATORY)
+
+**Before every commit, run markdownlint:**
+
+```bash
+npx markdownlint-cli2 "**/*.md"
+```
+
+Common errors to avoid:
+
+- **MD031/MD032**: Add blank lines around code blocks and lists
+- **MD040**: Always specify language for code blocks (use `text` if not code)
+- **MD058**: Add blank lines around tables
+- **MD060**: Align table columns properly (all pipes must align vertically)
+
+**Example of proper table alignment:**
+
+```markdown
+| Column 1 | Column 2       | Column 3 |
+| -------- | -------------- | -------- |
+| Short    | Longer content | Value    |
+| Data     | More data      | End      |
+```
+
+**CI/CD will fail if markdownlint errors are present.**
+
 ### Testing Your Changes
 
 ```bash

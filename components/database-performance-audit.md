@@ -5,11 +5,13 @@
 ## Философия аудита
 
 **НЕ ДЕЛАЙ:**
+
 - Static analysis кода для поиска индексов (код не знает частоту вызовов)
 - Гадание "какие индексы нужны" без данных
 - Добавление индексов "на всякий случай"
 
 **ДЕЛАЙ:**
+
 - Анализ через `performance_schema` (реальная статистика)
 - Поиск запросов с плохим scan ratio
 - Удаление неиспользуемых индексов
@@ -26,10 +28,12 @@ SHOW DATABASES LIKE 'sys';
 ```
 
 **Если есть sys** - используй удобные views:
+
 - `sys.statement_analysis`
 - `sys.schema_unused_indexes`
 
 **Если нет sys** - работай напрямую с `performance_schema`:
+
 - `performance_schema.events_statements_summary_by_digest`
 - `performance_schema.table_io_waits_summary_by_index_usage`
 
@@ -80,13 +84,14 @@ SELECT
 ```
 
 | Peak % | Status | Action |
-|--------|--------|--------|
+| ------ | ------ | ------ |
 | < 60% | OK | - |
 | 60-80% | Warning | Планируй увеличение |
 | > 80% | Critical | Увеличивай `max_connections` |
 
 **Формула для воркеров:**
-```
+
+```text
 max_connections >= (PHP-FPM workers) + (Queue workers) + (Cron jobs) + 20% запас
 ```
 
@@ -105,6 +110,7 @@ SELECT
 **Правило:** `buffer_pool >= db_size * 1.2`
 
 **Конфиг:**
+
 ```ini
 # /etc/mysql/mysql.conf.d/mysqld.cnf
 innodb_buffer_pool_size = 1536M          # Под размер БД
@@ -132,14 +138,16 @@ LIMIT 15;
 ```
 
 **Интерпретация scan_ratio:**
+
 | Ratio | Meaning | Action |
-|-------|---------|--------|
+| ----- | ------- | ------ |
 | 1-10 | Excellent | OK |
 | 10-100 | Acceptable | Monitor |
 | 100-1000 | Poor | Add index |
 | > 1000 | Critical | Fix ASAP |
 
 **Типичные решения:**
+
 - `WHERE column = ?` без индекса → `CREATE INDEX`
 - `WHERE column IS NOT NULL` → кэширование
 - `LIKE '%search%'` → Full-text search
@@ -169,11 +177,13 @@ FROM performance_schema.global_status WHERE VARIABLE_NAME = 'Uptime';
 ```
 
 **Безопасно удалять (uptime > 7 дней):**
+
 - Single-column boolean indexes на редких фильтрах
 - Дублирующие индексы
 - Индексы на архивных таблицах
 
 **НЕ удалять:**
+
 - `*_foreign` (FK constraints)
 - PRIMARY, UNIQUE
 - Индексы созданные < 7 дней назад
@@ -196,11 +206,13 @@ LIMIT 15;
 ```
 
 **Признаки N+1:**
+
 - `exec_count` в тысячах
 - Простой `SELECT ... WHERE id = ?`
 - `avg_ms` < 1ms
 
 **Фикс (Laravel):**
+
 ```php
 // Bad
 foreach (Site::all() as $site) {
@@ -224,12 +236,14 @@ WHERE VARIABLE_NAME = 'Innodb_deadlocks';
 ```
 
 **Если > 0:**
+
 ```sql
 SHOW ENGINE INNODB STATUS\G
 -- Секция: LATEST DETECTED DEADLOCK
 ```
 
 **Типичные причины:**
+
 - Параллельные воркеры обновляют одну запись
 - Транзакции блокируют таблицы в разном порядке
 - Long-running transactions
@@ -252,6 +266,7 @@ LIMIT 10;
 ```
 
 **Проблемные признаки:**
+
 - `index_mb` > `data_mb` → слишком много индексов
 - Таблица > 1GB → планируй архивацию/партиционирование
 - `jobs` таблица раздута → проблема с воркерами
@@ -286,7 +301,8 @@ const prisma = new PrismaClient({
 ### Queue Workers
 
 **Формула connections:**
-```
+
+```text
 workers * connections_per_worker + web_requests + buffer
 ```
 
